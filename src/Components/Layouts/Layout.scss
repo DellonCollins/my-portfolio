@@ -1,0 +1,49 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+.content {  
+    @include media-breakpoint-down(lg) { 
+        max-height: calc(100% - 62px); 
+    }
+      
+    > :nth-child(1), > :nth-child(2){
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .scroll-wrapper{
+        > div {
+            height: 1000px;
+        }
+    }
+}
+.base-layout{
+    height: 100vh;
+
+    > .navigation {
+        .navbar-collapse{
+            @include media-breakpoint-down(md) { 
+                position: absolute;
+                top: 62px; right: 0px;
+            }
+            
+            
+        }
+
+        @include media-breakpoint-up(lg) { 
+            nav {
+                height: 100%;
+            }
+            div {
+                display: flex;
+                flex-direction: column;
+            }
+            width : 100px;
+        } 
+    }
+}
+
+.react-p5-wrapper{
+    line-height: 0px;
+}
