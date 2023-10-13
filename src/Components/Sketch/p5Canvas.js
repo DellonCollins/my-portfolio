@@ -1,9 +1,13 @@
 import { ReactP5Wrapper } from "@p5-wrapper/react"
 import { useEffect, useRef, useState } from 'react'
+import { Grid } from "./Points";
 
 function sketch(p5){
     let width = 600, height = 400;
-    p5.setup = () => p5.createCanvas(width, height, p5.WEBGL);
+    let pointsGrid;
+    p5.setup = () => {
+        p5.createCanvas(width, height);
+    }
 
     p5.updateWithProps = (props) => {
         if (props.canvasWidth) {
@@ -14,16 +18,21 @@ function sketch(p5){
             height = props.canvasHeight
             p5.resizeCanvas(width, height)
         }
+        if (props.canvasHeight || props.canvasWidth){
+            pointsGrid = new Grid(width, height, p5)
+        }
     };
     p5.draw = () => {
+        
         p5.background(120);
-        p5.normalMaterial();
-        p5.push();
-        p5.rotateZ(p5.frameCount * 0.01);
-        p5.rotateX(p5.frameCount * 0.01);
-        p5.rotateY(p5.frameCount * 0.01);
-        p5.plane(100);
-        p5.pop();
+        // p5.normalMaterial();
+        // p5.push();
+        // p5.rotateZ(p5.frameCount * 0.01);
+        // p5.rotateX(p5.frameCount * 0.01);
+        // p5.rotateY(p5.frameCount * 0.01);
+        // p5.plane(100);
+        // p5.pop();
+        if(pointsGrid){pointsGrid.draw()}
     };
 }
 
