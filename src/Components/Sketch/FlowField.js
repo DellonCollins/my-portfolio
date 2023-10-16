@@ -62,29 +62,3 @@ class FlowPoint{
         canvas.pop()
     }
 }
-
-export function flowField(grid, canvas, increment = 0.1){
-    
-    let [xRange, yRange] = grid.flowMap.size();
-    let xOffset = 0
-    for (let x = 0; x < xRange; x++){
-        let yOffset = 0
-        for (let y = 0; y < yRange; y++){
-            let noise = canvas.noise(xOffset, yOffset)
-            let angle = noise * canvas.TWO_PI
-            let vector = Vector.fromAngle(angle)
-
-            let coord = grid.flowMap.get([x, y])
-            canvas.push()
-            canvas.stroke(150)
-            canvas.strokeWeight(1)
-            canvas.translate(coord.x, coord.y)
-            canvas.rotate(vector.heading())
-            canvas.line(0,0, grid.width/xRange,0)
-            canvas.pop()
-
-            yOffset += increment
-        }
-        xOffset += increment
-    }
-}
