@@ -1,10 +1,12 @@
 import { ReactP5Wrapper } from "@p5-wrapper/react"
-import { useEffect, useRef, useState } from 'react'
-import { flowField, FlowGrid } from "./FlowField";
+import { useEffect, useState } from 'react'
+import { FlowGrid } from "./FlowField";
+import { ParticleManager } from "./Particle";
 
 function sketch(p5){
-    let width = 600, height = 400; let first = true;
-    let pointsGrid;
+    let width = 600, height = 400;
+    let flowGrid;
+    let particleManager;
     
     p5.setup = () => {
         p5.createCanvas(width, height);
@@ -20,19 +22,19 @@ function sketch(p5){
             p5.resizeCanvas(width, height)
         }
         if (props.canvasHeight || props.canvasWidth){
-            pointsGrid = new FlowGrid(width, height, p5, 30, 30)
+            flowGrid = new FlowGrid(width, height, p5, 30, 30)
+            particleManager = new ParticleManager(flowGrid)
         }
     };
     p5.draw = () => {
         p5.background(120);
 
-        if(pointsGrid){
-            pointsGrid.draw()
+        if(flowGrid){
+            flowGrid.draw()
+            particleManager.draw(p5)
         }
     };
 }
-
-
 
 export function P5Canvas({container}) {
     const [dimensions, setDimensions] = useState({
