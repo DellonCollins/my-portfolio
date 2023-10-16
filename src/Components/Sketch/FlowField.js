@@ -21,12 +21,19 @@ export class FlowGrid{
         
         console.log(xCoords, yCoords, this.flowMap, this.width)
 
-        let [xRange, yRange] = this.flowMap.size(); let increment = 0.2
+        this.setFlowValues()
+    }
+    
+    setFlowValues(){
+        let [xRange, yRange] = this.flowMap.size(); let increment = 0.1
         let xOffset = 0
+        this.canvas.noiseSeed(36)
         for (let x = 0; x < xRange; x++){
             let yOffset = 0
             for (let y = 0; y < yRange; y++){
-                let noise = this.canvas.noise(xOffset, yOffset)
+
+                let timeDelta = this.canvas.frameCount/500
+                let noise = this.canvas.noise(xOffset + timeDelta, yOffset + timeDelta )
                 let angle = noise * this.canvas.TWO_PI
                 let vector = Vector.fromAngle(angle)
 
@@ -38,11 +45,13 @@ export class FlowGrid{
             xOffset += increment
         }
     }
-    
+
     draw(){
         this.flowMap.forEach((element)=>{
             element.draw(this.canvas)
         })
+
+        this.setFlowValues()
     }
 
     nearestFlowPoint(x, y){
@@ -61,7 +70,6 @@ export class FlowGrid{
         }
 
         let nearestPoint = this.flowMap.get([xCell, yCell])
-        console.log(x, y, nearestPoint)
         return nearestPoint
 
     }
@@ -73,7 +81,7 @@ class FlowPoint{
         this.heading = heading
     }
 
-    draw(canvas, color = "black", size = 10){
+    draw(canvas, color = "pink", size = 10){
         canvas.push()
         canvas.stroke(color)
         canvas.strokeWeight(1)

@@ -4,12 +4,13 @@ import { FlowGrid } from "./FlowField";
 import { ParticleManager } from "./Particle";
 
 function sketch(p5){
-    let width = 600, height = 400;
+    let width = 600, height = 400; let first = true;
     let flowGrid;
     let particleManager;
     
     p5.setup = () => {
         p5.createCanvas(width, height);
+        first = true
     }
 
     p5.updateWithProps = (props) => {
@@ -22,17 +23,22 @@ function sketch(p5){
             p5.resizeCanvas(width, height)
         }
         if (props.canvasHeight || props.canvasWidth){
-            flowGrid = new FlowGrid(width, height, p5, 30, 30)
-            particleManager = new ParticleManager(flowGrid)
+            flowGrid = new FlowGrid(width, height, p5, 20, 25)
+            particleManager = new ParticleManager(flowGrid, 50)
         }
     };
     p5.draw = () => {
-        p5.background(120);
-
-        if(flowGrid){
-            flowGrid.draw()
-            particleManager.draw(p5)
+        if (first){
+            p5.background(0);
         }
+        if(flowGrid){
+            // flowGrid.draw()
+            particleManager.updateParticles()
+            particleManager.draw(p5)
+            // first = false;
+        }
+
+       
     };
 }
 
