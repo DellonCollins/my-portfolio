@@ -1,6 +1,6 @@
 import { ReactP5Wrapper } from "@p5-wrapper/react"
 import { useEffect, useRef, useState } from 'react'
-import { flowField, Grid } from "./Points";
+import { flowField, FlowGrid } from "./FlowField";
 
 function sketch(p5){
     let width = 600, height = 400; let first = true;
@@ -20,7 +20,7 @@ function sketch(p5){
             p5.resizeCanvas(width, height)
         }
         if (props.canvasHeight || props.canvasWidth){
-            pointsGrid = new Grid(width, height, p5, 20, 20)
+            pointsGrid = new FlowGrid(width, height, p5, 30, 30)
         }
     };
     p5.draw = () => {
@@ -28,11 +28,7 @@ function sketch(p5){
 
         if(pointsGrid){
             pointsGrid.draw()
-            flowField(pointsGrid, p5)
         }
-
-        
-
     };
 }
 

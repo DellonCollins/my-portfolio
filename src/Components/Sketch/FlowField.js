@@ -1,22 +1,27 @@
 import * as math from "mathjs"
 import { Vector } from 'p5'
-export class Grid{
+export class FlowGrid{
     constructor (width, height, canvas, numPointsX = 10, numPointsY = 10){
-        this.canvas = canvas; this.width = width; this.height = height
-        let pointsGrid = math.matrix(math.ones([numPointsX + 1, numPointsY + 1]))
-        let xCoords = math.range(0, width, width/numPointsX, true), yCoords = math.range(0, height, height/numPointsY, true)
-    
-        
-        this.coordinateMap = math.map(pointsGrid, (element, index) => {
-            let _x = xCoords.get([index[0]]), _y = yCoords.get([index[1]])
-            return new Point(_x, _y)
-        })
-        
-        console.log(xCoords, yCoords, this.coordinateMap, this.width)
+        this.canvas = canvas; 
+        this.width = width; this.height = height
+        this.flowMap = undefined;
+
+        this.initializeFlowField(numPointsX, numPointsY)
     }
 
-    initializeFlowField(){
-        let [xRange, yRange] = this.coordinateMap.size(); let increment = 0.2
+    initializeFlowField(numPointsX, numPointsY){
+        let pointsGrid = math.matrix(math.ones([numPointsX + 1, numPointsY + 1]))
+        let xCoords = math.range(0, this.width, this.width/numPointsX, true), yCoords = math.range(0, this.height, this.height/numPointsY, true)
+    
+        
+        this.flowMap = math.map(pointsGrid, (element, index) => {
+            let _x = xCoords.get([index[0]]), _y = yCoords.get([index[1]])
+            return new FlowPoint(_x, _y)
+        })
+        
+        console.log(xCoords, yCoords, this.flowMap, this.width)
+
+        let [xRange, yRange] = this.flowMap.size(); let increment = 0.2
         let xOffset = 0
         for (let x = 0; x < xRange; x++){
             let yOffset = 0
@@ -25,14 +30,8 @@ export class Grid{
                 let angle = noise * this.canvas.TWO_PI
                 let vector = Vector.fromAngle(angle)
 
-                let coord = this.coordinateMap.get([x, y])
-                // this.canvas.push()
-                // this.canvas.stroke(150)
-                // this.canvas.strokeWeight(1)
-                // this.canvas.translate(coord.x, coord.y)
-                // this.canvas.rotate(vector.heading())
-                // this.canvas.line(0,0, this.width/rows,0)
-                // this.canvas.pop()
+                let flowPoint = this.flowMap.get([x, y])
+                flowPoint.heading = vector.heading()
 
                 yOffset += increment
             }
@@ -41,30 +40,32 @@ export class Grid{
     }
     
     draw(){
-        this.coordinateMap.forEach((element)=>{
+        this.flowMap.forEach((element)=>{
             element.draw(this.canvas)
         })
     }
 }
 
-class Point{
-    constructor(x, y, value = undefined){
+class FlowPoint{
+    constructor(x, y, heading = undefined){
         this.x = x; this.y = y
-        this.value = value
+        this.heading = heading
     }
 
     draw(canvas, color = "black", size = 10){
         canvas.push()
-        canvas.stroke(color);
-        canvas.strokeWeight(size);
-        canvas.point(this.x, this.y)
+        canvas.stroke(150)
+        canvas.strokeWeight(1)
+        canvas.translate(this.x, this.y)
+        canvas.rotate(this.heading)
+        canvas.line(0,0,size,0)
         canvas.pop()
     }
 }
 
 export function flowField(grid, canvas, increment = 0.1){
     
-    let [xRange, yRange] = grid.coordinateMap.size();
+    let [xRange, yRange] = grid.flowMap.size();
     let xOffset = 0
     for (let x = 0; x < xRange; x++){
         let yOffset = 0
@@ -73,7 +74,7 @@ export function flowField(grid, canvas, increment = 0.1){
             let angle = noise * canvas.TWO_PI
             let vector = Vector.fromAngle(angle)
 
-            let coord = grid.coordinateMap.get([x, y])
+            let coord = grid.flowMap.get([x, y])
             canvas.push()
             canvas.stroke(150)
             canvas.strokeWeight(1)
