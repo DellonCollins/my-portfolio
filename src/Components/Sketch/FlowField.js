@@ -1,17 +1,17 @@
 import * as math from "mathjs"
 import { Vector } from 'p5'
 export class FlowGrid{
-    constructor (width, height, canvas, numPointsX = 10, numPointsY = 10){
-        this.canvas = canvas; 
+    constructor (width, height, canvas, numIntervalsX = 10, numIntervalsY = 10){
+        this.canvas = canvas
         this.width = width; this.height = height
-        this.flowMap = undefined;
+        this.flowMap = undefined
 
-        this.initializeFlowField(numPointsX, numPointsY)
+        this.initializeFlowField(numIntervalsX, numIntervalsY)
     }
 
-    initializeFlowField(numPointsX, numPointsY){
-        let pointsGrid = math.matrix(math.ones([numPointsX + 1, numPointsY + 1]))
-        let xCoords = math.range(0, this.width, this.width/numPointsX, true), yCoords = math.range(0, this.height, this.height/numPointsY, true)
+    initializeFlowField(numIntervalsX, numIntervalsY){
+        let pointsGrid = math.matrix(math.ones([numIntervalsX + 1, numIntervalsY + 1]))
+        let xCoords = math.range(0, this.width, this.width/numIntervalsX, true), yCoords = math.range(0, this.height, this.height/numIntervalsY, true)
     
         
         this.flowMap = math.map(pointsGrid, (element, index) => {
@@ -44,6 +44,27 @@ export class FlowGrid{
             element.draw(this.canvas)
         })
     }
+
+    nearestFlowPoint(x, y){
+        let [xRange, yRange] = this.flowMap.size()
+        //subtract 1 from ranges because a grid with 10 
+        let blockWidth = this.width/(xRange - 1), blockHeight = this.height/(yRange - 1)
+
+        let xCell = Math.floor(x / blockWidth)
+        if(x % blockWidth >= blockWidth/2) {
+            xCell +=  1
+        }
+
+        let yCell = Math.floor(y / blockHeight)
+        if(y % blockHeight >= blockHeight/2) {
+            yCell +=  1
+        }
+
+        let nearestPoint = this.flowMap.get([xCell, yCell])
+        console.log(x, y, nearestPoint)
+        return nearestPoint
+
+    }
 }
 
 class FlowPoint{
@@ -54,7 +75,7 @@ class FlowPoint{
 
     draw(canvas, color = "black", size = 10){
         canvas.push()
-        canvas.stroke(150)
+        canvas.stroke(color)
         canvas.strokeWeight(1)
         canvas.translate(this.x, this.y)
         canvas.rotate(this.heading)
