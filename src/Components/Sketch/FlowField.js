@@ -25,15 +25,15 @@ export class FlowGrid{
     }
     
     setFlowValues(){
-        let [xRange, yRange] = this.flowMap.size(); let increment = 0.1
+        let [xRange, yRange] = this.flowMap.size(); let increment = 0.2
         let xOffset = 0
-        this.canvas.noiseSeed(36)
+        this.canvas.noiseSeed(200 * Math.random())
         for (let x = 0; x < xRange; x++){
             let yOffset = 0
             for (let y = 0; y < yRange; y++){
 
-                let timeDelta = this.canvas.frameCount/500
-                let noise = this.canvas.noise(xOffset + timeDelta, yOffset + timeDelta )
+                let timeDelta = this.canvas.frameCount/200
+                let noise = this.canvas.noise(xOffset, yOffset )
                 let angle = noise * this.canvas.TWO_PI
                 let vector = Vector.fromAngle(angle)
 
@@ -79,6 +79,7 @@ class FlowPoint{
     constructor(x, y, heading = undefined){
         this.x = x; this.y = y
         this.heading = heading
+        this.strength = Math.random()*3
     }
 
     draw(canvas, color = "pink", size = 10){

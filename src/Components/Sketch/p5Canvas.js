@@ -23,19 +23,19 @@ function sketch(p5){
             p5.resizeCanvas(width, height)
         }
         if (props.canvasHeight || props.canvasWidth){
-            flowGrid = new FlowGrid(width, height, p5, 20, 25)
-            particleManager = new ParticleManager(flowGrid, 50)
+            flowGrid = new FlowGrid(width, height, p5, 15, 15)
+            particleManager = new ParticleManager(flowGrid, 70)
         }
     };
     p5.draw = () => {
         if (first){
-            p5.background(0);
+            p5.background(20);
         }
         if(flowGrid){
             // flowGrid.draw()
-            particleManager.updateParticles()
+            particleManager.updateParticles(p5)
             particleManager.draw(p5)
-            // first = false;
+            first = false;
         }
 
        
