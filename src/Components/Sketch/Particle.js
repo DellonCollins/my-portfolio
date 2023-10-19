@@ -1,18 +1,21 @@
 import * as mathjs from "mathjs"
 import { Vector, Color, LINES, POINTS } from 'p5'
+import { Ratio } from "../../Util/Ratio";
 import { Lines, Queue } from "./Queue";
 
-export class Particle{
-    static lifeSpan = 1000
+const Direction = {
+    TOP: 0,
+    RIGHT: 1,
+    BOTTOM: 2,
+    LEFT: 3
+}
+
+export class Particle {
     static speedLimit = 6
 
-
-    constructor(initialX, initialY, initialVelocity = new Vector(0, 0), color, cost = 1){
-        this.x = initialX; this.y = initialY
-        this.velocity = initialVelocity.limit(Particle.speedLimit)
-        this.previousPositions = new Queue(1)
+    constructor(position, initialVelocity = new Vector(0, 0)){
+        this.position = position; this.velocity = initialVelocity.limit(Particle.speedLimit)
         this.isInBounds = true
-        this.cost = cost
     }
 
     draw(canvas, color="white"){
@@ -20,126 +23,100 @@ export class Particle{
     }
 
     drawPath(canvas, color){
-        let drawColor = canvas.color(color)
-        let levels = drawColor.levels
-        let alpha = 5
-        drawColor = canvas.color(levels[0], levels[1], levels[2], alpha)
+        if(!this.previousPosition){ return }
+        
+        let lineColor = canvas.color(color), levels = lineColor.levels
+        let alpha = 1
+
         canvas.push()
-        canvas.stroke(drawColor)
+        lineColor = canvas.color(levels[0], levels[1], levels[2], alpha)
+        canvas.stroke(lineColor)
         canvas.strokeWeight(1)
-        if(this.previousPositions.list[this.previousPositions.length-1]){
-            canvas.line(this.x, this.y, this.previousPositions.list[this.previousPositions.length-1].x, this.previousPositions.list[this.previousPositions.length-1].y)
-
-        }
-        
+        canvas.line(this.position.x, this.position.y, this.previousPosition.x, this.previousPosition.y)
         canvas.pop()
     }
 
-    drawLines(canvas, color="white"){
-        let drawColor = canvas.color(color)
-        let levels = drawColor.levels
-        let alpha = 50
-        drawColor = canvas.color(levels[0], levels[1], levels[2], alpha)
-        
-        canvas.push()
-        canvas.beginShape(LINES)
-        canvas.noFill()
-        
-        canvas.stroke(drawColor)
-        canvas.strokeWeight(3)
-
-        this.previousPositions.list = this.previousPositions.list.filter((point, index, vertices) => {            
-            canvas.vertex(point.x, point.y)
-                        
-            point.lifeSpan -= 5
-
-            return point.lifeSpan > 0
-        })
-        canvas.endShape()
-        
-        canvas.pop()
+    updatePosition(){
+        this.previousPosition = this.position.copy()
+        this.position.add(this.velocity)
     }
 
-    updatePosition(canvas, savePrevPositions = true){
-        if(savePrevPositions){
-            this.previousPositions.push({ x: this.x, y: this.y, lifeSpan: Particle.lifeSpan })
-        }
-        this.x += this.velocity.x
-        this.y += this.velocity.y
-        
-    }
-
-    updateVelocity(vector){
-        this.velocity.add(vector).limit(Particle.speedLimit)
+    updateVelocity(vector, speedLimit = Particle.speedLimit){
+        this.velocity.add(vector).limit(speedLimit)
     }
 }
 
 export class ParticleManager {
-    
     constructor(flowField, numParticles = 20){
-        this.flowField = flowField
+        this.flowField = flowField        
+        this.particleExitTracker = new Ratio(4)
         this.particleList = this.instantiateParticlesFromEdge(numParticles)
-        this.rotation = Math.PI * 0
+        this.rotation = Math.PI / 8
     }
+
+    get width() { return this.flowField.width }
+    get height() { return this.flowField.height }
 
     instantiateParticles(numParticles){
         return [...Array(numParticles)].map(() => {
-            let xPosition = Math.floor(Math.random() * this.flowField.width), yPosition = Math.floor(Math.random() * this.flowField.height);
-            return new Particle(xPosition, yPosition, new Vector(Math.random() * Particle.speedLimit / 2, Math.random() * Particle.speedLimit / 2))
+            let xPosition = Math.floor(Math.random() * this.width), yPosition = Math.floor(Math.random() * this.height);
+            return new Particle(new Vector(xPosition, yPosition), new Vector(Math.random() * Particle.speedLimit / 2, Math.random() * Particle.speedLimit / 2))
         })
     }
 
     instantiateParticlesFromEdge(numParticles){
-        if(Math.random() < 0.25){
+        let area = this.width * this.height
+        let particleTracker = this.particleExitTracker
+
+        // Small chance to randomly create particles in middle of screen if the screen is sufficiently big
+        if(Math.random() < 0.15 && Math.sqrt(area) > 600){
             return this.instantiateParticles(numParticles)
         } 
+        
         return [...Array(numParticles)].map(() => {
-            let edge = Math.floor(Math.random()*3)
-            let v = Particle.speedLimit
-            let xPosition, yPosition
-            let screenWidth = this.flowField.width, screenHeight = this.flowField.height
-            let velocity
-            switch (edge) {
-                //Right
-                case 0:
-                    xPosition = this.flowField.width - 1
-                    yPosition = Math.floor(Math.random() * this.flowField.height)
-                    velocity = new Vector(-v, 0)
-                    break
+            let randomEdge = particleTracker.getRandomIndexLeast()         
+            let speedLimit = Particle.speedLimit / 2
+            let xPosition, yPosition, velocity
+            switch (randomEdge) {
                 //Top
-                case 1:
-                    xPosition = Math.floor(Math.random() * this.flowField.width);
+                case Direction.TOP:
+                    xPosition = Math.floor(Math.random() * this.width);
                     yPosition = 1
-                    velocity = new Vector(0, v)
+                    velocity = new Vector(0, speedLimit)
                     break
-                case 2:
-                    xPosition = Math.floor(Math.random() * this.flowField.width);
-                    yPosition = this.flowField.height - 1
-                    velocity = new Vector(0, -v)
-                    break
-                //Left
-                case 3:
-                    xPosition = 1
-                    yPosition = Math.floor(Math.random() * this.flowField.height)
-                    velocity = new Vector(v, 0)
+                //Right
+                case Direction.RIGHT:
+                    xPosition = this.width - 1
+                    yPosition = Math.floor(Math.random() * this.height)
+                    velocity = new Vector(-speedLimit, 0)
                     break
                 //Bottom
+                case Direction.BOTTOM:
+                    xPosition = Math.floor(Math.random() * this.width);
+                    yPosition = this.height - 1
+                    velocity = new Vector(0, -speedLimit)
+                    break
+                //Left
+                case Direction.LEFT:
+                    xPosition = 1
+                    yPosition = Math.floor(Math.random() * this.height)
+                    velocity = new Vector(speedLimit, 0)
+                    break
                 default:
+                    console.log("something went wrong")
                     break
             }
             
-            return new Particle(xPosition, yPosition, velocity)
+            return new Particle(new Vector(xPosition, yPosition), velocity)
         })
     }
 
-    updateParticles(canvas){
+    updateParticles(){
         let numParticlesDeleted = 0;
+
         this.particleList = this.particleList.filter((particle, index) => {
-            if( !particle.isInBounds && particle.previousPositions.list.length === 0 ) { return false }
-
-            if ( !particle.isInBounds ) { return false }
-
-            let nearestFlowPoint = this.flowField.nearestFlowPoint(particle.x, particle.y)
+            let position = particle.position
+            let nearestFlowPoint = this.flowField.nearestFlowPoint(position)
             let heading = Vector.fromAngle(nearestFlowPoint.heading).mult(nearestFlowPoint.strength)
 
             let rotationScale = 0.001
@@ -147,26 +124,35 @@ export class ParticleManager {
             heading.rotate(this.rotation)
             
             particle.updateVelocity(heading)
-            particle.updatePosition(canvas)
+            particle.updatePosition()
 
             // Out of bounds check
-            if(particle.x > this.flowField.width  || particle.x < 0 || particle.y > this.flowField.height || particle.y < 0){
+            if (position.x > this.width || position.x < 0 || position.y > this.height || position.y < 0) {
+                if(position.x > this.width){
+                    this.particleExitTracker.increment(Direction.RIGHT)
+                } else if (position.x < 0) {
+                    this.particleExitTracker.increment(Direction.LEFT)
+                } else if (position.y > this.height) {
+                    this.particleExitTracker.increment(Direction.BOTTOM)
+                } else if (position.y < 0) {
+                    this.particleExitTracker.increment(Direction.TOP)
+                }
+
                 numParticlesDeleted++
-                particle.isInBounds = false
+                return false
             }
 
             return true
         })
         
-
         this.particleList.push(...this.instantiateParticlesFromEdge(numParticlesDeleted))
     }
     
 
     draw(canvas){
-        let timeDomain = 100
+        let timeDomain = 225
+        let color = canvas.lerpColor(canvas.color("purple"), canvas.color("pink"), (canvas.frameCount % timeDomain) / timeDomain)
         
-        let color = canvas.lerpColor(canvas.color("blue"), canvas.color("pink"), (canvas.frameCount % timeDomain) / timeDomain)
         this.particleList.forEach(particle => {
             particle.draw(canvas, color)
         })
