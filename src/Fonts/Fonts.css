@@ -1,0 +1,39 @@
+@font-face {
+    font-family: Cubic;
+    src: url("./cubic/cubic.ttf");
+}
+
+@font-face {
+    font-family: Quantum;
+    src: url("./quantum/Quantum.otf");
+}
+
+@font-face {
+    font-family: Peg;
+    src: url("./peg_holes/peg-holes.ttf");
+}
+@font-face {
+    font-family: Platinum;
+    src: url("./platinum_sign/Platinum\ Sign.ttf");
+}
+@font-face {
+    font-family: Transformers;
+    src: url("./transformers/Transformers\ Movie.ttf");
+}
+
+@font-face {
+    font-family: Luminova;
+    src: url("./luminova-font/Luminova-lgDWe.otf");
+}
+
+.main-text {
+    font-family: Cubic;
+}
+
+.peg {
+    font-family: Peg;
+}
+
+.secondary-text {
+    font-family: Luminova;
+}

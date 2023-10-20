@@ -6,7 +6,7 @@ import './Layout.scss'
 export default function BaseAppLayout({children}){
     const contentRef = useRef()
 
-    return <div className="base-layout w-100 d-flex flex-column flex-lg-row">
+    return <div className="base-layout w-100 d-flex flex-column flex-lg-row text-white">
         <div className="navigation">{children[0]}</div>
         <div className="content d-grid flex-grow-1" ref={contentRef} >
             <P5Canvas className="test" container={contentRef}/>

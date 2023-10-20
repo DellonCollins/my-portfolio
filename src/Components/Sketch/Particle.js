@@ -151,7 +151,7 @@ export class ParticleManager {
 
     draw(canvas){
         let timeDomain = 225
-        let color = canvas.lerpColor(canvas.color("purple"), canvas.color("pink"), (canvas.frameCount % timeDomain) / timeDomain)
+        let color = canvas.lerpColor(canvas.color("cyan"), canvas.color("purple"), (canvas.frameCount % timeDomain) / timeDomain)
         
         this.particleList.forEach(particle => {
             particle.draw(canvas, color)
