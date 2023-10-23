@@ -1,5 +1,3 @@
-import { random } from "mathjs"
-
 export class Ratio{
     constructor(numEntries){
         this.entries = Array(numEntries).fill(1)

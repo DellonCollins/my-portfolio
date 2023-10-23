@@ -12,14 +12,11 @@ export class FlowGrid {
     initializeFlowField(numIntervalsX, numIntervalsY, canvas){
         let pointsGrid = math.matrix(math.ones([numIntervalsX + 1, numIntervalsY + 1]))
         let xCoords = math.range(0, this.width, this.width/numIntervalsX, true), yCoords = math.range(0, this.height, this.height/numIntervalsY, true)
-    
         
         this.flowMap = math.map(pointsGrid, (element, index) => {
             let _x = xCoords.get([index[0]]), _y = yCoords.get([index[1]])
             return new FlowPoint(_x, _y)
         })
-        
-        console.log(xCoords, yCoords, this.flowMap, this.width)
 
         this.setFlowValues(canvas)
     }

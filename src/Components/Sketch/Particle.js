@@ -1,7 +1,5 @@
-import * as mathjs from "mathjs"
-import { Vector, Color, LINES, POINTS } from 'p5'
+import { Vector } from 'p5'
 import { Ratio } from "../../Util/Ratio";
-import { Lines, Queue } from "./Queue";
 
 const Direction = {
     TOP: 0,
@@ -26,7 +24,7 @@ export class Particle {
         if(!this.previousPosition){ return }
         
         let lineColor = canvas.color(color), levels = lineColor.levels
-        let alpha = 1
+        let alpha = 2
 
         canvas.push()
         lineColor = canvas.color(levels[0], levels[1], levels[2], alpha)
@@ -149,9 +147,9 @@ export class ParticleManager {
     }
     
 
-    draw(canvas){
-        let timeDomain = 225
-        let color = canvas.lerpColor(canvas.color("cyan"), canvas.color("purple"), (canvas.frameCount % timeDomain) / timeDomain)
+    draw(canvas, color1 = "pink", color2 = "blue"){
+        let timeDomain = 1000
+        let color = canvas.lerpColor(canvas.color(color1), canvas.color(color2), (canvas.frameCount % timeDomain) / timeDomain)
         
         this.particleList.forEach(particle => {
             particle.draw(canvas, color)

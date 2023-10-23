@@ -3,31 +3,39 @@ import { useEffect, useState } from 'react'
 import { FlowGrid } from "./FlowField";
 import { quadratic } from '@rojo2/interpolation'
 import { ParticleManager } from "./Particle";
+import { useLocation } from "react-router-dom";
 
 function sketch(p5){
-    let width = 600, height = 400; let shouldRenderBackground = true;
-    let flowGrid;
-    let particleManager;
+    let width = 600, height = 400, pathname; 
+    let shouldRenderBackground = true;
+    let flowGrid, particleManager;
     
+    function initializeFlowField() {
+        shouldRenderBackground = true
+        flowGrid = instantiateFlowGrid(width, height, p5)
+        particleManager = instantiateParticleManager(flowGrid, p5)
+    }
+
     p5.setup = () => {
         p5.createCanvas(width, height);
         shouldRenderBackground = true
     }
 
     p5.updateWithProps = function (props){
-        if (props.canvasWidth) {
-            width = props.canvasWidth; 
-        } 
-        if (props.canvasHeight) {
-            height = props.canvasHeight
-        }
-
-        if (props.canvasHeight || props.canvasWidth) {
-            shouldRenderBackground = true
+        
+        if (props.canvasHeight != height || props.canvasWidth != width) {
+            height = props.canvasHeight ?  props.canvasHeight :  height
+            width = props.canvasWidth ?  props.canvasWidth :  width
             p5.resizeCanvas(width, height)
-            flowGrid = instantiateFlowGrid(width, height, p5)
-            particleManager = instantiateParticleManager(flowGrid, p5)
+            initializeFlowField()
+            return 
+        } if (props.pathname != pathname){
+            console.log(props, pathname)
+            pathname = props.pathname
+            initializeFlowField()
         }
+       
+        
     };
     p5.draw = () => {
         if (shouldRenderBackground) {
@@ -57,8 +65,7 @@ function instantiateFlowGrid(width, height, canvas){
     return new FlowGrid(width, height, canvas, xSpaces, ySpaces)
 }
 
-function instantiateParticleManager(flowGrid, canvas){
-    let scale = 0.6   
+function instantiateParticleManager(flowGrid, canvas){ 
     let normalizedArea = Math.sqrt(flowGrid.width * flowGrid.height)
     normalizedArea  = canvas.map(normalizedArea, 300, 1920, 0, 1)
     
@@ -72,6 +79,9 @@ export function P5Canvas({container}) {
         width: undefined,
         height: undefined
     })
+
+    const urlLocation = useLocation()
+
 
     // Resize effect
     useEffect(() => {
@@ -95,5 +105,5 @@ export function P5Canvas({container}) {
         console.log(dimensions, container)
     }, [dimensions])
     
-    return <ReactP5Wrapper className="test" sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height}/>
+    return <ReactP5Wrapper className="test" sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} pathname={urlLocation.pathname}/>
 }

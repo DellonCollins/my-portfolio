@@ -25,7 +25,7 @@ export default function Skills(){
             { skillList.map(skill=> { return <Col lg={6} key={skill.title}> 
                 <p className="h3 peg">{skill.title}</p>
                 <div className="ps-4 py-2 secondary-text">
-                    {skill.items.map(item=><p>{item}</p>)}
+                    {skill.items.map(item=><p key={item}>{item}</p>)}
                 </div>
             </Col>}) }
         </Row>

@@ -16,7 +16,7 @@ export default function Home(){
             </Col>
             <Col className="d-flex align-items-center">
                 <div className="w-100">
-                {bulletPoints.map(value => { return <div className="h3 peg py-lg-4 text-end w-100">{value}</div> })}
+                {bulletPoints.map(value => { return <div className="h3 peg py-lg-4 text-end w-100" key={value}>{value}</div> })}
                 </div>
             </Col>
         </Row>
