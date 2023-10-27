@@ -24,7 +24,7 @@ export class Particle {
         if(!this.previousPosition){ return }
         
         let lineColor = canvas.color(color), levels = lineColor.levels
-        let alpha = 2
+        let alpha = 3
 
         canvas.push()
         lineColor = canvas.color(levels[0], levels[1], levels[2], alpha)
@@ -147,7 +147,7 @@ export class ParticleManager {
     }
     
 
-    draw(canvas, color1 = "pink", color2 = "blue"){
+    draw(canvas, color1 = "white", color2 = "cyan"){
         let timeDomain = 1000
         let color = canvas.lerpColor(canvas.color(color1), canvas.color(color2), (canvas.frameCount % timeDomain) / timeDomain)
         
