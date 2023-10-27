@@ -1,10 +1,13 @@
-import { Container, Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
+import PageLayout from "../Layouts/PageLayout";
+import PageTitle from "../PageTitle";
+import "./Skills.scss"
 
 export default function Skills(){
     const skillList = [
         {
             title : "Front End",
-            items : [ "Node", "HTML / CSS / Sass", "React", "Angular"]
+            items : [ "HTML / CSS / Sass",  "Node", "React", "Angular"]
         },
         {
             title : "Back End",
@@ -19,15 +22,18 @@ export default function Skills(){
             items : [ "ServiceNow", "SAP" ]
         }
     ]
-    return (<Container>
-        <Row className="mt-5 ml-lg-2"><h1 className="display-1 main-text">Skills</h1></Row>
+    
+    return (<PageLayout>
+         <Row className="pt-5">
+            <PageTitle title="Skills"/>
+        </Row>
         <Row className="pt-5 ps-5">
-            { skillList.map(skill=> { return <Col lg={6} key={skill.title}> 
+            { skillList.map(skill=> { return <Col className="skill-column" lg="6" key={skill.title}> 
                 <p className="h3 peg">{skill.title}</p>
                 <div className="ps-4 py-2 secondary-text">
                     {skill.items.map(item=><p key={item}>{item}</p>)}
                 </div>
             </Col>}) }
         </Row>
-    </Container>)
+    </PageLayout>)
 }

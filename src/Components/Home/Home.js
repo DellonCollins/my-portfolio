@@ -1,24 +1,28 @@
-import { Container, Row, Col } from "react-bootstrap"
-import { P5Canvas } from "../Sketch/p5Canvas"
+import { Row } from "react-bootstrap"
+import PageLayout from "../Layouts/PageLayout"
+import PageTitle from "../PageTitle"
 import "./Home.scss"
 
 export default function Home(){
+    // const dimension = useDimensions(window, false, getWindowDimensions)
     const bulletPoints = [
         "Frontend Developer",
         "Computer Scientist",
         "Musician"
     ]
-    return <Container fluid className="text-white h-100">
-        <Row className="pt-5 h-100">
-            <Col className="pt-5 pt-lg-2" lg>
-                <h1 className="display-1 main-text">Dellon Collins</h1>
-                
-            </Col>
-            <Col className="d-flex align-items-center">
-                <div className="w-100">
-                {bulletPoints.map(value => { return <div className="h3 peg py-lg-4 text-end w-100" key={value}>{value}</div> })}
-                </div>
-            </Col>
+
+    const details = (<div>
+        {bulletPoints.map(value => { return <p className="h3 peg py-lg-4 text-end" key={value}>{value}</p> })}
+    </div>)
+
+    return <PageLayout>
+        <Row className="pt-5">
+            <PageTitle title="Dellon Collins"/>
         </Row>
-    </Container>
+        <Row className="mt-auto mb-5">
+            { details }
+        </Row>
+    </PageLayout> 
 }
+
+const getWindowDimensions = (screen) =>([screen.outerWidth, screen.outerHeight])

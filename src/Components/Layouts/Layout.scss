@@ -6,6 +6,7 @@
     @include media-breakpoint-down(lg) { 
         max-height: calc(100% - 62px); 
     }
+    
       
     > :nth-child(1), > :nth-child(2){
         grid-column: 1;
@@ -36,9 +37,18 @@
             }
             width : 100px;
         } 
+
+        @include media-breakpoint-up(xl) { 
+            
+            width : 150px;
+        } 
     }
 }
 
 .react-p5-wrapper{
     line-height: 0px;
+}
+
+.page-layout {
+    // min-height: 400px;
 }
