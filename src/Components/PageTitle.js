@@ -1,3 +1,4 @@
 export default function PageTitle({title}){
-    return <h1 className="display-1 main-text">{title}</h1>
+    return <h1 className="display font-main">{title}</h1>
+        
 }

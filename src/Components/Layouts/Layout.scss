@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/_breakpoints";
+@import "~bootstrap/scss/vendor/rfs";
 
 .content {  
     @include media-breakpoint-down(lg) { 
@@ -50,5 +51,8 @@
 }
 
 .page-layout {
-    // min-height: 400px;
+    @include rfs(4rem, "padding-right");
+    @include rfs(4rem, "padding-left");
+    @include rfs(1em, "padding-top");
+    @include rfs(1em, "padding-bottom");
 }

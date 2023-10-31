@@ -24,7 +24,7 @@ export class Particle {
         if(!this.previousPosition){ return }
         
         let lineColor = canvas.color(color), levels = lineColor.levels
-        let alpha = 3
+        let alpha = 1
 
         canvas.push()
         lineColor = canvas.color(levels[0], levels[1], levels[2], alpha)

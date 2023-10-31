@@ -8,9 +8,9 @@ export default function BaseAppLayout({children}){
 
     return <div className="base-layout w-100 d-flex flex-column flex-lg-row text-white">
         <div className="navigation">{children[0]}</div>
-        <div className="content d-grid flex-grow-1" ref={contentRef} >
+        <div className="content d-grid flex-grow-1 bg-secondary" ref={contentRef} >
             <P5Canvas className="test" container={contentRef}/>
-            <div className="scroll-wrapper overflow-auto">{children[1]}</div>
+            <div className="scroll-wrapper overflow-y-auto overflow-x-hidden">{children[1]}</div>
         </div>
     </div>
 }

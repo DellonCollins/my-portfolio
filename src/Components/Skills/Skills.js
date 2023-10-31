@@ -1,4 +1,5 @@
 import { Row, Col } from "react-bootstrap";
+import { CSSTransitionWrapper } from "../../Styles and Transitions/Transitions";
 import PageLayout from "../Layouts/PageLayout";
 import PageTitle from "../PageTitle";
 import "./Skills.scss"
@@ -24,16 +25,20 @@ export default function Skills(){
     ]
     
     return (<PageLayout>
-         <Row className="pt-5">
-            <PageTitle title="Skills"/>
-        </Row>
-        <Row className="pt-5 ps-5">
-            { skillList.map(skill=> { return <Col className="skill-column" lg="6" key={skill.title}> 
-                <p className="h3 peg">{skill.title}</p>
-                <div className="ps-4 py-2 secondary-text">
-                    {skill.items.map(item=><p key={item}>{item}</p>)}
-                </div>
-            </Col>}) }
-        </Row>
+        <CSSTransitionWrapper classNames="fade">
+            <Row className="pt-5">
+                <PageTitle title="Skills"/>
+            </Row>
+            <Row className="pt-5 px-5">
+                { skillList.map(skill => { return <Col className="skill-column" md="6" key={skill.title}> 
+                    <p className="font-peg heading">{skill.title}</p>
+                    <div className="ps-5 py-2 default-text">
+                        {skill.items.map((item, itemIndex) => <CSSTransitionWrapper classNames="fade">
+                            <p style={{transitionDelay:`${itemIndex*300}ms`}} key={item}>{item}</p>
+                        </CSSTransitionWrapper>)}
+                    </div>
+                </Col>}) }
+            </Row>
+        </CSSTransitionWrapper>
     </PageLayout>)
 }

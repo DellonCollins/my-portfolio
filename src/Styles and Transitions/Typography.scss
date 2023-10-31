@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/vendor/rfs";
+.display {
+    @include rfs(6rem)
+}
+
+.heading {
+    @include rfs(2.5rem)
+}
+
+.default-text {
+    @include rfs(1.5rem)
+}

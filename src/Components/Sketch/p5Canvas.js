@@ -12,7 +12,7 @@ const DrawMode = {
 }
 
 var backgroundColor = 10
-var fadeDuration = 3 * 1000, drawDuration = 8 * 1000
+var fadeDuration = 3 * 1000, drawDuration = 12 * 1000
 var setupHasRan = false
 
 function sketch(p5){
