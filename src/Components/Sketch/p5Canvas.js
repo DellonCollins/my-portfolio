@@ -16,12 +16,12 @@ var fadeDuration = 5 * 1000, drawDuration = 18 * 1000
 var setupHasRan = false
 
 function sketch(p5){
+    
     let width = 600, height = 400, pathname, isHidden = false; 
     let shouldRenderBackground = true;
     let flowGrid, particleManager;
     let drawMode = DrawMode.draw
     let drawTimeout, fadeTimeout, fadeStartTime
-    
     function resetRenderTiming(){
         drawMode = DrawMode.draw
         if(fadeTimeout) { fadeTimeout.pause() }
@@ -100,7 +100,7 @@ function sketch(p5){
             if (flowGrid) {
                 // p5.blendMode(p5.add)
                 particleManager.updateParticles()
-                particleManager.draw(p5)
+                particleManager.draw(p5, JSON.parse(sessionStorage.getItem("colors")) || undefined)
                 if(p5.frameCount % 2000 === 0 ){
                     flowGrid.setFlowValues(p5)
                 }
@@ -125,6 +125,7 @@ function sketch(p5){
         }
         
     };
+    
 }
 
 
@@ -158,5 +159,5 @@ export function P5Canvas({container}) {
     const reloadInitiated = useReload()
 
     return <ReactP5Wrapper className="test" sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
-        pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated}/>
+        pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} />
 }

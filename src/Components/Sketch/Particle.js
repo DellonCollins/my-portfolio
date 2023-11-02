@@ -1,5 +1,6 @@
 import { Vector } from 'p5'
 import { Ratio } from "../../Util/Ratio";
+import * as hexToRGB from 'pretty-easy-hex-to-rgb';
 
 const Direction = {
     TOP: 0,
@@ -107,7 +108,7 @@ export class ParticleManager {
                     break
             }
             
-            return new Particle(new Vector(xPosition, yPosition), velocity)
+            return new Particle(new Vector(xPosition, yPosition))
         })
     }
 
@@ -149,9 +150,13 @@ export class ParticleManager {
     }
     
 
-    draw(canvas, color1 = "white", color2 = "cyan"){
-        let timeDomain = 1000
-        let color = canvas.lerpColor(canvas.color(color1), canvas.color(color2), (canvas.frameCount % timeDomain) / timeDomain)
+    draw(canvas, colors = ["#ffffff", "#00ffff"]){   
+        let timeDomain = 200, indexStart = parseInt((canvas.frameCount/timeDomain) % colors.length), indexEnd = (indexStart + 1) % colors.length
+        
+        let colorStart = canvas.color(hexToRGB(colors[indexStart])), 
+            colorEnd   = canvas.color(hexToRGB(colors[indexEnd]))
+
+        let color = canvas.lerpColor(colorStart, colorEnd, (canvas.frameCount % timeDomain) / timeDomain)
         
         this.particleList.forEach(particle => {
             particle.draw(canvas, color)

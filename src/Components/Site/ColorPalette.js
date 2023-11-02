@@ -1,12 +1,16 @@
 import { Button } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
 
-const minNumColors = 2, defaultColor = "#000000";
+const minNumColors = 2, defaultColor = "#000000", defaultColors = ["#ffffff", "#00ffff"];
 
-export default function ColorPalette(){
-    const [colors, setColors] = useState(["#ffffff", "#00ffff"])
+export default function ColorPalette(){    
+    const [colors, setColors] = useState(JSON.parse(sessionStorage.getItem("colors")) || defaultColors)
+
+    useEffect(()=> {
+        sessionStorage.setItem("colors", JSON.stringify(colors))
+    }, [colors])
 
     const changeColor = (event) => {
         let newColors = [...colors]
@@ -21,7 +25,6 @@ export default function ColorPalette(){
     const removeColor = (event) => {
         let newColors = [...colors], id = parseInt(event.target.id)
         newColors = newColors.filter((value, index) => index !== id)
-        console.log(id)
         setColors(newColors)
     }
 

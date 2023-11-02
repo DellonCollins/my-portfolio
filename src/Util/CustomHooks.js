@@ -33,7 +33,6 @@ export function useVisibility() {
 
     useEffect(()=> {
         const visibilityListener = (event) => { 
-            console.log("visiblity", document.visibilityState)
             setVisibility(document.hidden)
         }
 
