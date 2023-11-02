@@ -21,7 +21,7 @@ export default function Home(){
     return <PageLayout>
             <CSSTransitionWrapper classNames="fade">
                 <Row className="pt-5 h-100">
-                    <Col xl={8}><PageTitle title="Dellon Collins"/></Col>
+                    <Col xl={6}><PageTitle title="Dellon Collins"/></Col>
                     <Col xl className="mt-auto">{ details }</Col>   
                 </Row>
             </CSSTransitionWrapper>

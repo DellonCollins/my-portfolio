@@ -12,7 +12,7 @@ const DrawMode = {
 }
 
 var backgroundColor = 10
-var fadeDuration = 3 * 1000, drawDuration = 12 * 1000
+var fadeDuration = 5 * 1000, drawDuration = 18 * 1000
 var setupHasRan = false
 
 function sketch(p5){
@@ -57,12 +57,12 @@ function sketch(p5){
             return 
         }
         
-        if (props.pathname && pathname != props.pathname){
+        if (props.pathname && pathname !== props.pathname){
             pathname = props.pathname
             initializeFlowField()
         }   
 
-        if(props.hidden != isHidden){
+        if(props.hidden !== isHidden){
             isHidden =  props.hidden
             if(isHidden){
                 if(fadeTimeout) { fadeTimeout.pause() }
@@ -146,7 +146,7 @@ function instantiateParticleManager(flowGrid, canvas){
     let normalizedArea = Math.sqrt(flowGrid.width * flowGrid.height)
     normalizedArea  = canvas.map(normalizedArea, 300, 1920, 0, 1)
     
-    let numParticles = Math.floor(quadratic(normalizedArea, 400, 550, 900))
+    let numParticles = Math.floor(quadratic(normalizedArea, 300, 800, 1100)) 
     console.log("area %f\nnum particles %i", normalizedArea, numParticles)
     return new ParticleManager(flowGrid, numParticles)
 }

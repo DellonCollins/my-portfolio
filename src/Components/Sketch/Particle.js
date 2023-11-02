@@ -9,7 +9,7 @@ const Direction = {
 }
 
 export class Particle {
-    static speedLimit = 6
+    static speedLimit = 4
 
     constructor(position, initialVelocity = new Vector(0, 0)){
         this.position = position; this.velocity = initialVelocity.limit(Particle.speedLimit)
@@ -58,7 +58,9 @@ export class ParticleManager {
     instantiateParticles(numParticles){
         return [...Array(numParticles)].map(() => {
             let xPosition = Math.floor(Math.random() * this.width), yPosition = Math.floor(Math.random() * this.height);
-            return new Particle(new Vector(xPosition, yPosition), new Vector(Math.random() * Particle.speedLimit / 2, Math.random() * Particle.speedLimit / 2))
+            return new Particle(new Vector(xPosition, yPosition), 
+                new Vector(Math.random() * Particle.speedLimit / 2, Math.random() * Particle.speedLimit / 2)
+            )
         })
     }
 
