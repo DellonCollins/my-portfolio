@@ -1,9 +1,7 @@
 import { Collapse } from "bootstrap";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useCallback, useRef, } from "react";
+import { Container, Nav, Navbar,  } from "react-bootstrap";
 import NavigationLink from "./NavigationLink";
-import * as $ from "jquery"
 
 export default function NavigationBar(){
     const links = [

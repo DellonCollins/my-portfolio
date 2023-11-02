@@ -1,5 +1,6 @@
 {
   "name": "portfolio",
+  "homepage": "https://delloncollins.github.io/my-portfolio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.2",
+    "gh-pages": "^6.0.0",
     "jquery": "^3.7.1",
     "mathjs": "^11.11.2",
     "p5": "^1.7.0",
@@ -22,6 +24,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
