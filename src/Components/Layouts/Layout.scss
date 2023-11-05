@@ -23,6 +23,7 @@
             @include media-breakpoint-down(md) { 
                 position: absolute;
                 top: 62px; right: 0px;
+                z-index: 2;
             }
             
             
