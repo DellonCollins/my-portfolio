@@ -12,7 +12,7 @@ export default function Contact(){
             </Row>
             <Row className="pt-5 px-5">
                 <p className="font-peg heading">Email</p>
-                <p className="ps-5 default-text">collins.dellon@gmail.com</p>
+                <p className="ps-5 default-text fw-light">collins.dellon@gmail.com</p>
             </Row>
         </CSSTransitionWrapper>
     </PageLayout>
