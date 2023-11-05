@@ -29,13 +29,13 @@ export default function ColorPalette(){
     }
 
 
-    const colorMap = (value, index, colorArray) => {
-        return <Col md={6}>
+    const colorMap = (value, index) => {
+        return <Col md={6} key={index}>
             <InputGroup key={index}>
                 <InputGroupText>Color {index + 1}</InputGroupText>
                 <Form.Control type="color" value={value} onChange={changeColor} id={`${index}`}></Form.Control>
-                <Button variant="outline-primary" onClick={addColor} id={`${index}`} >Insert</Button>
-                <Button variant="outline-danger" onClick={removeColor} id={`${index}`} disabled={colors.length <= minNumColors}>Remove</Button>
+                <Button variant="primary" onClick={addColor} id={`${index}`} >Insert</Button>
+                <Button variant={colors.length <= minNumColors ? "outline-danger" : "danger"} onClick={removeColor} id={`${index}`} disabled={colors.length <= minNumColors}>Remove</Button>
             </InputGroup>
         </Col>
     }

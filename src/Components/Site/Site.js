@@ -16,7 +16,7 @@ export default function Site(){
                 <span className="fw-normal" style={{color:"#CD6799"}}> Sass</span>, and 
                 <span className="fw-normal" style={{color:"#ed225d"}}> P5js</span> </p>
         </Row>
-        <Row className="pt-5 px-md-5">
+        <Row className="px-md-5">
             <p className="font-peg heading">How the canvas works</p>
             <div className="ps-md-5 default-text fw-light">
                 <p> The background is generative art inspired by flow fields. </p>
@@ -27,7 +27,8 @@ export default function Site(){
                 </p>
             </div>
         </Row>
-        <Row>
+        <Row className="pb-4">
+            <p className="font-peg heading">Edit</p>
             <EditCanvas/>
         </Row>
     </PageLayout>
