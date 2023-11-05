@@ -48,19 +48,20 @@ function sketch(p5){
     }
 
     p5.updateWithProps = function (props){
-        
+        let shouldReinitialize = false
         if (props.canvasHeight !== height || props.canvasWidth !== width) {
             height = props.canvasHeight ?  props.canvasHeight :  height
             width = props.canvasWidth ?  props.canvasWidth :  width
             p5.resizeCanvas(width, height)
-            initializeFlowField()
-            return 
+            shouldReinitialize = true
         }
         
         if (props.pathname && pathname !== props.pathname){
             pathname = props.pathname
-            initializeFlowField()
-        }   
+            shouldReinitialize = true
+        }  
+        
+        if(shouldReinitialize){ initializeFlowField() }
 
         if(props.hidden !== isHidden){
             isHidden =  props.hidden
