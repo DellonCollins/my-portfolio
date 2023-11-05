@@ -30,7 +30,7 @@ export default function NavigationBar(){
         bootstrapCollapse().toggle()
     }
     const renderNavigationLinks = () => {
-        return links.map((link, index) => (<NavigationLink className="mx-0 mx-md-3 mx-lg-0" to={link.address} key={link.address}>
+        return links.map((link) => (<NavigationLink className="mx-0 mx-md-3 mx-lg-0" to={link.address} key={link.address}>
             <span className="nav-link">{link.name}</span>
         </NavigationLink>))
     }
@@ -43,8 +43,7 @@ export default function NavigationBar(){
             </NavigationLink>
             
             <button className="navbar-toggler" type="button" onBlur={close} onClick={toggle} 
-            // data-toggle="collapse" data-target="#responsive-navbar-nav" aria-controls="responsive-navbar-nav" aria-expanded="false" aria-label="Toggle navigation"
-            >
+                    data-toggle="collapse" data-target="#responsive-navbar-nav" aria-controls="responsive-navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             
