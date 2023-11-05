@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
@@ -30,17 +30,19 @@ export default function ColorPalette(){
 
 
     const colorMap = (value, index, colorArray) => {
-        return <InputGroup key={index}>
-            <InputGroupText>Color {index + 1}</InputGroupText>
-            <Form.Control type="color" value={value} onChange={changeColor} id={`${index}`}></Form.Control>
-            <Button variant="outline-primary" onClick={addColor} id={`${index}`} >Insert Color</Button>
-            <Button variant="outline-danger" onClick={removeColor} id={`${index}`} disabled={colors.length <= minNumColors}>Remove Color</Button>
-        </InputGroup>
+        return <Col md={6}>
+            <InputGroup key={index}>
+                <InputGroupText>Color {index + 1}</InputGroupText>
+                <Form.Control type="color" value={value} onChange={changeColor} id={`${index}`}></Form.Control>
+                <Button variant="outline-primary" onClick={addColor} id={`${index}`} >Insert</Button>
+                <Button variant="outline-danger" onClick={removeColor} id={`${index}`} disabled={colors.length <= minNumColors}>Remove</Button>
+            </InputGroup>
+        </Col>
     }
-    return <div>
+    return <>
         {
             colors.map(colorMap)
         }
-    </div>
+    </>
 }
 
