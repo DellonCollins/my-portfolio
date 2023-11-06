@@ -33,8 +33,8 @@ export default function Skills(){
                 { skillList.map(skill => { return <Col className="skill-column" md="6" key={skill.title}> 
                     <p className="font-peg heading">{skill.title}</p>
                     <div className="ps-5 py-2 default-text fw-light">
-                        {skill.items.map((item, itemIndex) => <CSSTransitionWrapper classNames="fade">
-                            <p style={{transitionDelay:`${itemIndex*300}ms`}} key={item}>{item}</p>
+                        {skill.items.map((item, itemIndex) => <CSSTransitionWrapper classNames="fade" key={item}>
+                            <p style={{transitionDelay:`${itemIndex*300}ms`}}>{item}</p>
                         </CSSTransitionWrapper>)}
                     </div>
                 </Col>}) }

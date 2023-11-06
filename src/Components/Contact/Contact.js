@@ -10,7 +10,7 @@ export default function Contact(){
             <Row className="pt-5">
                 <PageTitle title="Contact"/>
             </Row>
-            <Row className="pt-5 px-5">
+            <Row className="pt-5 px-2 px-md-5">
                 <p className="font-peg heading">Email</p>
                 <p className="ps-5 default-text fw-light">collins.dellon@gmail.com</p>
             </Row>
