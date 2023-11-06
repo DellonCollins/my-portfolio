@@ -5,23 +5,24 @@ import { ParticleManager } from "./Particle";
 import { useLocation } from "react-router-dom";
 import TimerWithPause from "../../Util/TimerWithPause";
 import { useDimensions, useReload, useVisibility } from "../../Util/CustomHooks";
+import useCanvasStore from "../../Store/CanvasStore";
 
 const DrawMode = {
-    draw : 0,
-    fade : 1
+    draw : 0, fade : 1
 }
 
 var backgroundColor = 10
-var fadeDuration = 5 * 1000, drawDuration = 18 * 1000
+var fadeDuration = 5 * 1000, drawDuration = 18 * 1000, gridDensity = 1, particleDensity = 1;
 var setupHasRan = false
 
 function sketch(p5){
-    
+    let saveSwitch = false, resetSwitch = false
     let width = 600, height = 400, pathname, isHidden = false; 
     let shouldRenderBackground = true;
     let flowGrid, particleManager;
     let drawMode = DrawMode.draw
     let drawTimeout, fadeTimeout, fadeStartTime
+
     function resetRenderTiming(){
         drawMode = DrawMode.draw
         if(fadeTimeout) { fadeTimeout.pause() }
@@ -61,7 +62,7 @@ function sketch(p5){
             shouldReinitialize = true
         }  
         
-        if(shouldReinitialize){ initializeFlowField() }
+        
 
         if(props.hidden !== isHidden){
             isHidden =  props.hidden
@@ -79,6 +80,23 @@ function sketch(p5){
             if(drawTimeout) { drawTimeout.pause() }
         }
 
+        if(props.gridDensity && gridDensity !== props.gridDensity) { gridDensity = props.gridDensity }
+        
+        if(props.particleDensity && particleDensity !== props.particleDensity) { particleDensity = props.particleDensity }
+        
+        if(props.drawDuration && drawDuration !== props.drawDuration) { drawDuration = props.drawDuration * 1000 }
+
+        if(props.saveSwitch !== undefined && props.saveSwitch !== saveSwitch) {
+            saveSwitch = props.saveSwitch
+            p5.saveCanvas("flow field canvas")
+        }
+
+        if(props.resetSwitch !== undefined && props.resetSwitch !== resetSwitch) {
+            resetSwitch = props.resetSwitch
+            shouldReinitialize = true
+        }
+
+        if(shouldReinitialize){ initializeFlowField() }
     }
 
     p5.draw = () => {
@@ -99,7 +117,6 @@ function sketch(p5){
                 
             }
             if (flowGrid) {
-                // p5.blendMode(p5.add)
                 particleManager.updateParticles()
                 particleManager.draw(p5, JSON.parse(sessionStorage.getItem("colors")) || undefined)
                 if(p5.frameCount % 2000 === 0 ){
@@ -124,22 +141,18 @@ function sketch(p5){
             p5.rect(0, 0, width, height)
             p5.pop()
         }
-        
-    };
-    
+    }
 }
-
-
 
 function instantiateFlowGrid(width, height, canvas){
     let area = Math.sqrt(width * height)
-    let gridScale = area / 30
+    let gridScale = area / 30 * gridDensity
     let halfPerimeter = width + height
 
     let xSpaces = gridScale * (width/halfPerimeter), ySpaces = gridScale * (height/halfPerimeter)
     xSpaces = Math.floor(xSpaces) + 5
     ySpaces = Math.floor(ySpaces) + 5
-    console.log("grid points: x %i, y %i", xSpaces, ySpaces)
+    // console.log("grid points: x %i, y %i", xSpaces, ySpaces)
     
     return new FlowGrid(width, height, canvas, xSpaces, ySpaces)
 }
@@ -148,8 +161,8 @@ function instantiateParticleManager(flowGrid, canvas){
     let normalizedArea = Math.sqrt(flowGrid.width * flowGrid.height)
     normalizedArea  = canvas.map(normalizedArea, 300, 1920, 0, 1)
     
-    let numParticles = Math.floor(quadratic(normalizedArea, 300, 800, 1100)) 
-    console.log("area %f\nnum particles %i", normalizedArea, numParticles)
+    let numParticles = Math.floor(quadratic(normalizedArea, 300, 800, 1100) / 2) * particleDensity
+    // console.log("area %f, num particles %i", normalizedArea, numParticles)
     return new ParticleManager(flowGrid, numParticles)
 }
 
@@ -158,7 +171,13 @@ export function P5Canvas({container}) {
     const urlLocation = useLocation()
     const hidden = useVisibility()
     const reloadInitiated = useReload()
+    const gridDensity = useCanvasStore(state=>state.gridDensity)
+    const particleDensity = useCanvasStore(state=>state.particleDensity)
+    const drawDuration = useCanvasStore(state=>state.drawDuration)
+    const saveSwitch = useCanvasStore(state=>state.saveSwitch)
+    const resetSwitch = useCanvasStore(state=>state.resetSwitch)
 
-    return <ReactP5Wrapper className="test" sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
-        pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} />
+    return <ReactP5Wrapper sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
+        pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} 
+        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity}/>
 }

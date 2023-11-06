@@ -30,7 +30,7 @@ export default function ColorPalette(){
 
 
     const colorMap = (value, index) => {
-        return <Col md={6} key={index}>
+        return <Col md={12} key={index}>
             <InputGroup key={index}>
                 <InputGroupText>Color {index + 1}</InputGroupText>
                 <Form.Control type="color" value={value} onChange={changeColor} id={`${index}`}></Form.Control>
