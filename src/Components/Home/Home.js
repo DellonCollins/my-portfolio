@@ -5,11 +5,10 @@ import PageTitle from "../PageTitle"
 import "./Home.scss"
 
 export default function Home(){
-    // const dimension = useDimensions(window, false, getWindowDimensions)
     const bulletPoints = [
         "Frontend Developer",
         "Computer Scientist",
-        "Musician"
+        "Artist"
     ]
 
     const details = (<div className="heading">
@@ -28,5 +27,3 @@ export default function Home(){
         </PageLayout> 
     
 }
-
-const getWindowDimensions = (screen) =>([screen.outerWidth, screen.outerHeight])

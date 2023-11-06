@@ -13,7 +13,7 @@ export default function NavigationBar(){
     const collapseRef = useRef()
     const bootstrapCollapse = useCallback(()=>{
         return collapseRef.current ? Collapse.getOrCreateInstance(collapseRef.current) : undefined
-    }, [collapseRef.current])
+    }, [collapseRef])
 
     const close = () => {
         if(!bootstrapCollapse()) { return }

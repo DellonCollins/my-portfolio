@@ -26,8 +26,6 @@ export function useDimensions(container, isRef = true, getter = (e) => [e.client
     return dimensions
 }
 
-
-
 export function useVisibility() {
     const [visibility, setVisibility] = useState()
 
