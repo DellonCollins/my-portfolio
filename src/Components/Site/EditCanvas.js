@@ -16,6 +16,7 @@ export default function EditCanvas(){
     const handleDrawDuration = (e) => {
         if((e.type === 'keydown' && e.key === 'Enter') || e.type === 'blur'){
             setDrawDuration(drawDuration.current.value)
+            console.log(useCanvasStore.getState())
         }
     }
 
@@ -28,6 +29,8 @@ export default function EditCanvas(){
         setDrawDuration(drawDuration.current.value)
         setParticleDensity(e.target.value)
     }
+
+    
     return <Container>
         <Row>
             <ColorPalette/>
