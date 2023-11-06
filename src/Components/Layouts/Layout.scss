@@ -17,12 +17,6 @@
 .base-layout{
     height: 100%;
 
-    // .content .scroll-wrapper {
-    //     @include media-breakpoint-down(md) { 
-    //         height: calc(100% - 62px);
-    //     }
-    // }
-
     > .navigation {
         .navbar-collapse{
             @include media-breakpoint-down(md) { 
