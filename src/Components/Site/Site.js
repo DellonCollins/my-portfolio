@@ -1,10 +1,12 @@
 import { Row } from "react-bootstrap";
+import { CSSTransitionWrapper } from "../../Styles and Transitions/Transitions";
 import PageLayout from "../Layouts/PageLayout";
 import PageTitle from "../PageTitle";
 import EditCanvas from "./EditCanvas";
 
 export default function Site(){
     return <PageLayout>
+    <CSSTransitionWrapper classNames="fade">
         <Row className="pt-5">
             <PageTitle title="Site"/>
         </Row>
@@ -27,9 +29,10 @@ export default function Site(){
                 </p>
             </div>
         </Row>
-        <Row className="pb-4">
+        <Row className="px-md-5 pb-4">
             <p className="font-peg heading">Edit</p>
             <EditCanvas/>
         </Row>
+    </CSSTransitionWrapper>
     </PageLayout>
 }
