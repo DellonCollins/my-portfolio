@@ -1,9 +1,11 @@
 import { Collapse } from "bootstrap";
 import { useCallback, useRef, } from "react";
 import { Container, Nav, Navbar,  } from "react-bootstrap";
+import { useLocation, useNavigate, useNavigation } from "react-router-dom";
 import NavigationLink from "./NavigationLink";
 
 export default function NavigationBar(){
+    const location = useLocation()
     const links = [
         { address : "home", name : "About Me" },
         { address : "skills", name : "Skills" },
@@ -25,12 +27,12 @@ export default function NavigationBar(){
     const toggle = (e) => {
         if(!bootstrapCollapse()) { return }
 
-        e.preventDefault()
-        e.stopPropagation()
+        // e.preventDefault()
+        // e.stopPropagation()
         bootstrapCollapse().toggle()
     }
     const renderNavigationLinks = () => {
-        return links.map((link) => (<NavigationLink className="mx-0 mx-md-3 mx-lg-0" to={link.address} key={link.address}>
+        return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "fw-bold" : "")} to={link.address} key={link.address}>
             <span className="nav-link">{link.name}</span>
         </NavigationLink>))
     }
