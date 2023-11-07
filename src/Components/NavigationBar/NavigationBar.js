@@ -4,14 +4,16 @@ import { Container, Nav, Navbar,  } from "react-bootstrap";
 import { useLocation, useNavigate, useNavigation } from "react-router-dom";
 import NavigationLink from "./NavigationLink";
 
+const links = [
+    { address : "home", name : "About Me" },
+    { address : "skills", name : "Skills" },
+    { address : "contact", name : "Contact" },
+    { address : "site", name : "Site" },
+]
+
 export default function NavigationBar(){
     const location = useLocation()
-    const links = [
-        { address : "home", name : "About Me" },
-        { address : "skills", name : "Skills" },
-        { address : "contact", name : "Contact" },
-        { address : "site", name : "Site" },
-    ]
+    
     const collapseRef = useRef()
     const bootstrapCollapse = useCallback(()=>{
         return collapseRef.current ? Collapse.getOrCreateInstance(collapseRef.current) : undefined
@@ -19,18 +21,14 @@ export default function NavigationBar(){
 
     const close = () => {
         if(!bootstrapCollapse()) { return }
-
         bootstrapCollapse().hide()
-
     }
 
     const toggle = (e) => {
         if(!bootstrapCollapse()) { return }
-
-        // e.preventDefault()
-        // e.stopPropagation()
         bootstrapCollapse().toggle()
     }
+    
     const renderNavigationLinks = () => {
         return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "fw-bold" : "")} to={link.address} key={link.address}>
             <span className="nav-link">{link.name}</span>
