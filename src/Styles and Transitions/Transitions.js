@@ -1,4 +1,4 @@
-import { useRef, cloneElement, Children, forwardRef } from "react";
+import { useRef, cloneElement, Children } from "react";
 import { CSSTransition } from "react-transition-group";
 
 export function TransitionWrapper({children: child, enter = true, appear = true, timeout = 2000, classNames}){
