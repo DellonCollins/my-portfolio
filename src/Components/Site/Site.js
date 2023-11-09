@@ -2,7 +2,6 @@ import { Row } from "react-bootstrap";
 import { CSSTransitionWrapper } from "../../Styles and Transitions/Transitions";
 import PageLayout from "../Layouts/PageLayout";
 import PageTitle from "../PageTitle";
-import EditCanvas from "./EditCanvas";
 
 export default function Site(){
     return <PageLayout>
@@ -28,10 +27,6 @@ export default function Site(){
                     strands of hair.
                 </p>
             </div>
-        </Row>
-        <Row className="px-md-5 pb-4">
-            <p className="font-peg heading">Edit</p>
-            <EditCanvas/>
         </Row>
     </CSSTransitionWrapper>
     </PageLayout>
