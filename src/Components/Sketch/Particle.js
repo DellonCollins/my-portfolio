@@ -76,7 +76,7 @@ export class ParticleManager {
         
         return [...Array(numParticles)].map(() => {
             let randomEdge = particleTracker.getRandomIndexLeast()         
-            let speedLimit = Particle.speedLimit / 2
+            let speedLimit = Particle.speedLimit / 5
             let xPosition, yPosition, velocity
             switch (randomEdge) {
                 //Top
@@ -108,7 +108,7 @@ export class ParticleManager {
                     break
             }
             
-            return new Particle(new Vector(xPosition, yPosition))
+            return new Particle(new Vector(xPosition, yPosition), velocity)
         })
     }
 

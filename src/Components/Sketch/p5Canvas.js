@@ -42,9 +42,8 @@ function sketch(p5){
         // appears to be a race condition in p5 js that makes setup run twice. this prevents that
         if (setupHasRan) { return }
 
-        setupHasRan = true
         p5.createCanvas(width, height);
-        
+        setupHasRan = true
         shouldRenderBackground = true
     }
 
@@ -62,8 +61,6 @@ function sketch(p5){
             shouldReinitialize = true
         }  
         
-        
-
         if(props.hidden !== isHidden){
             isHidden =  props.hidden
             if(isHidden){
@@ -150,8 +147,8 @@ function instantiateFlowGrid(width, height, canvas){
     let halfPerimeter = width + height
 
     let xSpaces = gridScale * (width/halfPerimeter), ySpaces = gridScale * (height/halfPerimeter)
-    xSpaces = Math.floor(xSpaces) + 5
-    ySpaces = Math.floor(ySpaces) + 5
+    xSpaces = Math.floor(xSpaces)
+    ySpaces = Math.floor(ySpaces)
     // console.log("grid points: x %i, y %i", xSpaces, ySpaces)
     
     return new FlowGrid(width, height, canvas, xSpaces, ySpaces)
