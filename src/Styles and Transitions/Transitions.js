@@ -1,11 +1,11 @@
-import { useRef, cloneElement, Children } from "react";
+import { useRef, cloneElement, Children, forwardRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
-export function TransitionWrapper({children, enter = true, appear = true, timeout = 2000, classNames}){
-    const childRefs = useRef()
+export function TransitionWrapper({children: child, enter = true, appear = true, timeout = 2000, classNames}){
+    const childRef = useRef()
 
-    return <CSSTransition nodeRef={childRefs} in={enter} appear={appear} timeout={timeout} classNames={classNames}>
-        {cloneElement(children, { ref: childRefs })}
+    return <CSSTransition nodeRef={childRef} in={enter} appear={appear} timeout={timeout} classNames={classNames}>
+        {cloneElement(child, { ref: childRef })}
     </CSSTransition>
 }
 
