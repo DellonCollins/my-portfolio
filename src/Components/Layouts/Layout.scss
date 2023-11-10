@@ -29,17 +29,19 @@
         @include media-breakpoint-up(lg) { 
             nav {
                 height: 100%;
+                width : 100px;
             }
             div {
                 display: flex;
                 flex-direction: column;
             }
-            width : 100px;
+            
         } 
 
         @include media-breakpoint-up(xl) { 
-            
-            width : 150px;
+            nav {
+                width : 150px;
+            }
         } 
     }
 }
