@@ -1,8 +1,9 @@
 import * as math from "mathjs"
 import { Vector } from 'p5'
 export class FlowGrid {
-    constructor (width, height, canvas, numIntervalsX = 10, numIntervalsY = 10){
+    constructor (width, height, canvas, numIntervalsX = 10, numIntervalsY = 10, chaos = 50){
         // this.canvas = canvas
+        this.chaos = chaos
         this.width = width; this.height = height
         this.flowMap = undefined
 
@@ -30,7 +31,8 @@ export class FlowGrid {
             let yOffset = 0
             for (let y = 0; y < yRange; y++){
 
-                let timeDelta = 0//canvas.frameCount / 500
+                let chaosScale = (this.chaos / 100.0)
+                let timeDelta = canvas.frameCount * ((chaosScale * 5000)/ 5000)
                 let noise = canvas.noise(xOffset + timeDelta, yOffset + timeDelta)
                 let angle = noise * canvas.TWO_PI
                 let vector = Vector.fromAngle(angle)

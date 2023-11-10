@@ -70,7 +70,7 @@ export class ParticleManager {
         let particleTracker = this.particleExitTracker
 
         // Small chance to randomly create particles in middle of screen if the screen is sufficiently big
-        if(Math.random() < 0.15 && Math.sqrt(area) > 600){
+        if(Math.random() < 0.33 && Math.sqrt(area) > 600){
             return this.instantiateParticles(numParticles)
         } 
         

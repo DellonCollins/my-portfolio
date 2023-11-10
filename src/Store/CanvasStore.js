@@ -10,6 +10,9 @@ const useCanvasStore = create((set) => ({
     particleDensity: 3,
     setParticleDensity: (value) => set(() => ({ particleDensity: parseInt(value) })),
 
+    chaos: 50,
+    setChaos: (value) => set(() => ({ chaos: parseInt(value) })),
+
     saveSwitch: false,
     toggleSaveSwitch: () => set((state) => ({ saveSwitch: !state.saveSwitch})),
 

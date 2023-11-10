@@ -12,7 +12,7 @@ const DrawMode = {
 }
 
 var backgroundColor = 10
-var fadeDuration = 5 * 1000, drawDuration = 18 * 1000, gridDensity = 1, particleDensity = 1;
+var fadeDuration = 5 * 1000, drawDuration = 18 * 1000, gridDensity = 1, particleDensity = 1, chaos;
 var setupHasRan = false
 
 function sketch(p5){
@@ -77,11 +77,13 @@ function sketch(p5){
             if(drawTimeout) { drawTimeout.pause() }
         }
 
+        if(props.drawDuration && drawDuration !== props.drawDuration) { drawDuration = props.drawDuration * 1000 }
+
         if(props.gridDensity && gridDensity !== props.gridDensity) { gridDensity = props.gridDensity }
         
-        if(props.particleDensity && particleDensity !== props.particleDensity) { particleDensity = props.particleDensity }
-        
-        if(props.drawDuration && drawDuration !== props.drawDuration) { drawDuration = props.drawDuration * 1000 }
+        if(props.particleDensity && particleDensity !== props.particleDensity) { particleDensity = props.particleDensity } 
+
+        if(props.chaos && chaos !== props.chaos) { chaos = props.chaos }
 
         if(props.saveSwitch !== undefined && props.saveSwitch !== saveSwitch) {
             saveSwitch = props.saveSwitch
@@ -151,7 +153,7 @@ function instantiateFlowGrid(width, height, canvas){
     ySpaces = Math.floor(ySpaces)
     // console.log("grid points: x %i, y %i", xSpaces, ySpaces)
     
-    return new FlowGrid(width, height, canvas, xSpaces, ySpaces)
+    return new FlowGrid(width, height, canvas, xSpaces, ySpaces, chaos)
 }
 
 function instantiateParticleManager(flowGrid, canvas){ 
@@ -171,10 +173,11 @@ export function P5Canvas({container}) {
     const gridDensity = useCanvasStore(state=>state.gridDensity)
     const particleDensity = useCanvasStore(state=>state.particleDensity)
     const drawDuration = useCanvasStore(state=>state.drawDuration)
+    const chaos = useCanvasStore(state=>state.chaos)
     const saveSwitch = useCanvasStore(state=>state.saveSwitch)
     const resetSwitch = useCanvasStore(state=>state.resetSwitch)
 
     return <ReactP5Wrapper sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
         pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} 
-        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity}/>
+        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity} chaos={chaos}/>
 }
