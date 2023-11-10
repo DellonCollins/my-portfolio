@@ -6,44 +6,62 @@ import ColorPalette from "./ColorPalette";
 
 export default function EditCanvas({ref}){
     
-    const drawDuration = useRef()
+    const drawDurationRef = useRef()
+
+    const drawDuration = useCanvasStore((state)=> state.drawDuration)
+    const gridDensity = useCanvasStore((state)=> state.gridDensity)
+    const particleDensity = useCanvasStore((state)=> state.particleDensity)
+    const chaos = useCanvasStore((state)=> state.chaos)
+
     const setDrawDuration = useCanvasStore((state)=> state.setDrawDuration)
     const setGridDensity = useCanvasStore((state)=> state.setGridDensity)
     const setParticleDensity = useCanvasStore((state)=> state.setParticleDensity)
+    const setChaos = useCanvasStore((state)=> state.setChaos)
+
     const toggleSaveSwitch = useCanvasStore((state)=> state.toggleSaveSwitch)
     const toggleResetSwitch = useCanvasStore((state)=>state.toggleResetSwitch)
     
     const handleDrawDuration = (e) => {
         if((e.type === 'keydown' && e.key === 'Enter') || e.type === 'blur'){
-            setDrawDuration(drawDuration.current.value)
+            setDrawDuration(drawDurationRef.current.value)
             console.log(useCanvasStore.getState())
         }
     }
 
     const handleGridDensity = (e)=> {
-        setDrawDuration(drawDuration.current.value)
+        setDrawDuration(drawDurationRef.current.value)
         setGridDensity(e.target.value / 10)
     }
 
     const handleParticleDensity = (e)=> {
-        setDrawDuration(drawDuration.current.value)
+        setDrawDuration(drawDurationRef.current.value)
         setParticleDensity(e.target.value / 10)
     }
+
+    const handleChaos = (e)=> {
+        setChaos(e.target.value)
+    }
+
     const controls = [
         { 
             name : "Draw Duration", 
             icon : "bi bi-alarm",
-            control : <Form.Control className="text-center" ref={drawDuration} defaultValue="10" type="number" min="10" max="250" aria-label="Draw Duration Input" onKeyDown={handleDrawDuration} onBlur={handleDrawDuration} />
+            control : <Form.Control className="text-center" ref={drawDurationRef} defaultValue={drawDuration} type="number" min="10" max="250" aria-label="Draw Duration Input" onKeyDown={handleDrawDuration} onBlur={handleDrawDuration} />
         },
         { 
             name : "Grid Density", 
             icon : "bi bi-grid-3x3",
-            control : <Form.Control defaultValue="30" type="range" min="10" max="100"  aria-label="Grid Density Slider" onChange={handleGridDensity}/>
+            control : <Form.Control defaultValue={gridDensity * 10} type="range" min="10" max="100"  aria-label="Grid Density Slider" onChange={handleGridDensity}/>
         },
         { 
             name : "Particle Density", 
             icon : "bi bi-three-dots",
-            control : <Form.Control defaultValue="30" type="range" min="10" max="100" aria-label="Particle Density Slider" onChange={handleParticleDensity} />
+            control : <Form.Control defaultValue={particleDensity * 10} type="range" min="10" max="100" aria-label="Particle Density Slider" onChange={handleParticleDensity} />
+        },
+        { 
+            name : "Chaos", 
+            icon : "bi bi-dice-5",
+            control : <Form.Control defaultValue={chaos} type="range" min="10" max="90" aria-label="Particle Density Slider" onChange={handleChaos} />
         }
     ]
     
