@@ -18,14 +18,12 @@ export default function ColorPalette(){
         setColors(newColors)
     }
     const addColor = (event) => {
-        console.log(event)
-        let newColors = [...colors], id = parseInt(event.target.id)
+        let newColors = [...colors], id = parseInt(event.target.dataset.index)
         newColors.splice(id + 1, 0, defaultColor)
         setColors(newColors)
     }
     const removeColor = (event) => {
-        console.log(event)
-        let newColors = [...colors], id = parseInt(event.target.id)
+        let newColors = [...colors], id = parseInt(event.target.dataset.index)
         newColors = newColors.filter((value, index) => index !== id)
         setColors(newColors)
     }
