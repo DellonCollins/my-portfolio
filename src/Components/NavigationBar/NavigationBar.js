@@ -5,11 +5,11 @@ import { useLocation } from "react-router-dom";
 import NavigationLink from "./NavigationLink";
 
 const links = [
-    { address : "home", name : "Home" },
-    { address : "skills", name : "Skills" },
-    { address : "contact", name : "Contact" },
-    { address : "site", name : "Site" },
-    { address : "edit", name : "Modify" },
+    { address : "home", name : "Home", icon : "house" },
+    { address : "skills", name : "Skills", icon : "gear" },
+    { address : "contact", name : "Contact", icon : "person" },
+    { address : "site", name : "Site", icon : "window-fullscreen" },
+    { address : "edit", name : "Modify", icon : "pencil" },
 
 ]
 
@@ -31,7 +31,8 @@ export default function NavigationBar(){
     }
 
     const renderNavigationLinks = () => {
-        return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "fw-bold" : "")} to={link.address} key={link.address}>
+        return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "border border-2 rounded" : "")} to={link.address} key={link.address}>
+            <i className={"bi bi-" + link.icon}  style={{color:"black"}} alt={link.icon} role="img"/>&nbsp;
             <span className="nav-link">{link.name}</span>
         </NavigationLink>))
     }
