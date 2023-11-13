@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from "react";
+import { cloneElement, forwardRef, useRef } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
 import useCanvasStore from "../../Store/CanvasStore";
@@ -23,6 +23,7 @@ export default function EditCanvas({ref}){
     
     const handleDrawDuration = (e) => {
         if((e.type === 'keydown' && e.key === 'Enter') || e.type === 'blur'){
+            if(!drawDurationRef.current.value) {drawDurationRef.current.value = 10}
             setDrawDuration(drawDurationRef.current.value)
             console.log(useCanvasStore.getState())
         }
@@ -46,22 +47,22 @@ export default function EditCanvas({ref}){
         { 
             name : "Draw Duration", 
             icon : "bi bi-alarm",
-            control : <Form.Control className="text-center" ref={drawDurationRef} defaultValue={drawDuration} type="number" min="10" max="250" aria-label="Draw Duration Input" onKeyDown={handleDrawDuration} onBlur={handleDrawDuration} />
+            control : <Form.Control className="text-center" ref={drawDurationRef} defaultValue={drawDuration} placeholder="10" type="number" min="10" max="250" onKeyDown={handleDrawDuration} onBlur={handleDrawDuration} />
         },
         { 
             name : "Grid Density", 
             icon : "bi bi-grid-3x3",
-            control : <Form.Control defaultValue={gridDensity * 10} type="range" min="10" max="100"  aria-label="Grid Density Slider" onChange={handleGridDensity}/>
+            control : <Form.Control defaultValue={gridDensity * 10} type="range" min="10" max="100" onChange={handleGridDensity}/>
         },
         { 
-            name : "Particle Density", 
+            name : "Particle Quantity", 
             icon : "bi bi-three-dots",
-            control : <Form.Control defaultValue={particleDensity * 10} type="range" min="10" max="100" aria-label="Particle Density Slider" onChange={handleParticleDensity} />
+            control : <Form.Control defaultValue={particleDensity * 10} type="range" min="10" max="100" onChange={handleParticleDensity} />
         },
         { 
             name : "Chaos", 
             icon : "bi bi-dice-5",
-            control : <Form.Control defaultValue={chaos} type="range" min="10" max="90" aria-label="Particle Density Slider" onChange={handleChaos} />
+            control : <Form.Control defaultValue={chaos} type="range" min="10" max="90" onChange={handleChaos} />
         }
     ]
     
@@ -70,39 +71,36 @@ export default function EditCanvas({ref}){
             <ColorPalette/>
         </Row>
 
-        <Row className="pt-3"> 
-            <Col className="col-12">
-                <i className="bi bi-sliders" style={{fontSize:"3rem"}} alt="palette icon"/>
-            </Col>
-            { controls.map((control, value) => {
-                return <Col className="mb-1" md={6} key={value} >
-                    <InputGroup className="h-100 ">
-                        <InputGroupText style={{fontWeight: 600}}>
-                            {control.name} &nbsp;
-                            <i className={control.icon} style={{fontSize:"1.5rem"}}/>
+        <Row className="pt-3" aria-hidden>
+            <i className="bi bi-sliders" style={{fontSize:"3rem"}} alt="palette icon"/>
+        </Row>
+
+        <Row aria-label="Canvas Parameters" role="region">     
+            { controls.map((control, index) => {
+                return <Col className="mb-1" md={6} key={index} >
+                    <InputGroup className="h-100" role="group" aria-label={`${control.name} Input Group`}>
+                        <InputGroupText style={{fontWeight: 600}} id={`canvas-param-${index}`} role="none">
+                            {control.name}<span role="none">&nbsp;</span>
+                            <i className={control.icon} style={{fontSize:"1.5rem"}} aria-hidden/>
                         </InputGroupText>  
-                        {control.control}
+                        {cloneElement(control.control, {"aria-labelledby": `canvas-param-${index}`})}
                     </InputGroup>
                 </Col>
             }) }
         </Row>
 
         <Row  className="pt-3">
-            <Col className="mb-1" md={6}>
-                <InputGroup>
-                    <Button className="flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="success" onClick={toggleResetSwitch}>
-                        Reset &nbsp;
-                        <i className="bi bi-arrow-repeat" style={{fontSize:"2rem"}}/>
-                    </Button>
-                </InputGroup>
+            <Col className="mb-1" md={6} role="none">
+                <Button className="w-100 flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="success" onClick={toggleResetSwitch}>
+                    Restart &nbsp;
+                    <i className="bi bi-arrow-repeat" style={{fontSize:"2rem"}} aria-hidden />
+                </Button>
             </Col>
-            <Col md={6}>
-                <InputGroup>
-                    <Button className="flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="secondary" onClick={toggleSaveSwitch}>
-                        <span className="py-auto">Save &nbsp;</span>
-                        <i className="bi bi-save2" style={{fontSize:"2rem"}}/>
-                    </Button>
-                </InputGroup>
+            <Col md={6} role="none">
+                <Button className="w-100 flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="secondary" onClick={toggleSaveSwitch}>
+                    <span className="py-auto">Save &nbsp;</span>
+                    <i className="bi bi-save2" style={{fontSize:"2rem"}} aria-hidden/>
+                </Button>
             </Col>
         </Row>
     </Container>

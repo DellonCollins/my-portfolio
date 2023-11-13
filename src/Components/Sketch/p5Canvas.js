@@ -43,8 +43,14 @@ function sketch(p5){
         if (setupHasRan) { return }
 
         p5.createCanvas(width, height);
+        
         setupHasRan = true
         shouldRenderBackground = true
+
+        let wrapper = p5.select(".react-p5-wrapper")
+        wrapper.attribute("role", "region")
+        wrapper.attribute("title","canvas wrapper")
+        wrapper.attribute("aria-description","The canvas renders a customizable flow field as a dynamic background for the site")
     }
 
     p5.updateWithProps = function (props){
@@ -179,5 +185,5 @@ export function P5Canvas({container}) {
 
     return <ReactP5Wrapper sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
         pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} 
-        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity} chaos={chaos}/>
+        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity} chaos={chaos} role="region" title="background canvas"/>
 }
