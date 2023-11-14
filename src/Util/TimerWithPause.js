@@ -12,7 +12,5 @@ export default function TimerWithPause(callback, delay) {
         timerId = setTimeout(callback, remaining);
     };
 
-    
-
     this.resume();
 }

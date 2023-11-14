@@ -61,7 +61,6 @@ export class Ratio{
         })
 
         //the largest ranges are corresponded to the smallest entry values. the smallest entries are now most likely to be selected
-       
         let rand = Math.random(), randomIndex
         for (let index = 0; index < sortedRanges.length; index++) {
             let range = sortedRanges[index].range
@@ -70,9 +69,7 @@ export class Ratio{
                 randomIndex = index
                 return weights[randomIndex].index
             }   
-        }
-
-        
+        }        
     }
 
     get(index){
