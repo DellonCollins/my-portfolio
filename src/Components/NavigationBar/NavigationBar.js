@@ -1,16 +1,15 @@
 import { Collapse } from "bootstrap";
-import { useCallback, useRef, } from "react";
-import { Container, Nav, Navbar,  } from "react-bootstrap";
+import { useCallback, useRef } from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import NavigationLink from "./NavigationLink";
 
 const links = [
     { address : "home", name : "Home", icon : "house" },
     { address : "skills", name : "Skills", icon : "gear" },
-    { address : "contact", name : "Contact", icon : "person" },
+    { address : "edit", name : "Customize", icon : "pencil" },
     { address : "site", name : "Site", icon : "window-fullscreen" },
-    { address : "edit", name : "Modify", icon : "pencil" },
-
+    { address : "contact", name : "Contact", icon : "person" },
 ]
 
 export default function NavigationBar(){
@@ -25,15 +24,18 @@ export default function NavigationBar(){
         bootstrapCollapse().hide()
     }
 
-    const toggle = (e) => {
+    const toggle = () => {
         if(!bootstrapCollapse()) { return }
         bootstrapCollapse().toggle()
     }
 
     const renderNavigationLinks = () => {
-        return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "border border-2 rounded" : "")} to={link.address} key={link.address}>
-            <i className={"bi bi-" + link.icon}  style={{color:"black"}} alt={link.icon} role="img"/>&nbsp;
+        return links.map((link) => (<NavigationLink className={"mx-0 mx-md-3 mx-lg-0 " + (location.pathname.includes(link.address) ? "border border-2 rounded" : "")}
+            to={link.address} key={link.address}>
+
+            <i className={"bi bi-" + link.icon} style={{color:"black"}} alt={link.icon} role="img"/>&nbsp;
             <span className="nav-link">{link.name}</span>
+
         </NavigationLink>))
     }
 
@@ -49,7 +51,7 @@ export default function NavigationBar(){
                 <span className="navbar-toggler-icon"></span>
             </button>
             
-            <Navbar.Collapse className="justify-content-end my-auto w-100 px-4 px-lg-0 rounded-bottom flex-grow-0 text-center bg-body-tertiary" id="responsive-navbar-nav" ref={collapseRef}>
+            <Navbar.Collapse className="justify-content-end my-auto w-100 px-4 px-lg-0 rounded-bottom flex-grow-0 text-center bg-body-tertiary" id="responsive-navbar-nav" ref={collapseRef} >
                 <Nav>
                     {renderNavigationLinks()}
                 </Nav>
