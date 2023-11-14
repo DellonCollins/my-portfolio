@@ -1,4 +1,8 @@
-import {create} from  "zustand"
+import { create } from  "zustand"
+
+var defaultColor = "#aaaaaa", defaultColors = ["#ffffff", "#00ffff"]
+
+const storeColorInSession = (colors) => { sessionStorage.setItem("colors", JSON.stringify(colors)); return {colors} }
 
 const useCanvasStore = create((set) => ({
     drawDuration: 10,
@@ -18,6 +22,25 @@ const useCanvasStore = create((set) => ({
 
     resetSwitch: false,
     toggleResetSwitch: () => set((state) => ({ resetSwitch: !state.resetSwitch})),
+
+    colors: storeColorInSession(JSON.parse(sessionStorage.getItem("colors")) || defaultColors).colors,
+    setColor:   (index, color) => set((state) => {
+        let _colors = [...state.colors]
+        _colors[index] = color
+        return storeColorInSession(_colors)
+    }),
+    addColor:   (index) => set((state) => {
+        let _colors = [...state.colors]
+        _colors.splice(index + 1, 0, defaultColor)
+        return storeColorInSession(_colors)
+    }),
+    removeColor:(index) => set((state) => {
+        let _colors = state.colors.filter((v, i) => index !== i)
+        return storeColorInSession(_colors)
+    }),
+    resetColors:() => set(() => (storeColorInSession(defaultColors)))
+
 }))
+
 
 export default useCanvasStore
