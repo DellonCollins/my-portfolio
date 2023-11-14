@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/my-portfolio/static/css/main.5c0d6063.css",
-    "main.js": "/my-portfolio/static/js/main.2d5be821.js",
+    "main.js": "/my-portfolio/static/js/main.f62b316b.js",
     "static/js/787.1ed0c42c.chunk.js": "/my-portfolio/static/js/787.1ed0c42c.chunk.js",
     "static/media/peg-holes.ttf": "/my-portfolio/static/media/peg-holes.74d423590f5847979e1c.ttf",
     "static/media/Luminova-lgDWe.otf": "/my-portfolio/static/media/Luminova-lgDWe.acf75a745fa76a538cff.otf",
@@ -25,11 +25,11 @@
     "static/media/angular.svg": "/my-portfolio/static/media/angular.9282afc38d148d2318fc.svg",
     "static/media/servicenow.svg": "/my-portfolio/static/media/servicenow.a2258cce091b70fe7f7b.svg",
     "main.5c0d6063.css.map": "/my-portfolio/static/css/main.5c0d6063.css.map",
-    "main.2d5be821.js.map": "/my-portfolio/static/js/main.2d5be821.js.map",
+    "main.f62b316b.js.map": "/my-portfolio/static/js/main.f62b316b.js.map",
     "787.1ed0c42c.chunk.js.map": "/my-portfolio/static/js/787.1ed0c42c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5c0d6063.css",
-    "static/js/main.2d5be821.js"
+    "static/js/main.f62b316b.js"
   ]
 }
