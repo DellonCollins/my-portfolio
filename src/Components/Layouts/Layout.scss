@@ -1,7 +1,9 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/_breakpoints";
+@import "~bootstrap/scss/mixins/_buttons.scss";
 @import "~bootstrap/scss/vendor/rfs";
+
 
 .content {  
     @include media-breakpoint-down(lg) { 
@@ -23,7 +25,7 @@
                 position: absolute;
                 top: 62px; right: 0px;
                 z-index: 5;
-            }            
+            } 
         }
 
         @include media-breakpoint-up(lg) { 
@@ -55,4 +57,17 @@
     @include rfs(4rem, "padding-left");
     @include rfs(1em, "padding-top");
     @include rfs(1em, "padding-bottom");
+}
+
+.btn-pink {
+    $value : $pink-400;
+    @include button-variant (
+        $value,
+        $value,
+        $color: color-contrast($value),
+        $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
+        $hover-border: shade-color($value, $btn-hover-border-shade-amount),
+        $active-background: shade-color($value, $btn-active-bg-shade-amount),
+        $active-border: shade-color($value, $btn-active-border-shade-amount)
+    )
 }
