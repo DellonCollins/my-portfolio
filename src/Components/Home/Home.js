@@ -1,4 +1,5 @@
 import { Col, Row } from "react-bootstrap"
+import { Link } from "react-router-dom"
 import { CSSTransitionWrapper } from "../../Styles and Transitions/Transitions"
 import PageLayout from "../Layouts/PageLayout"
 import PageTitle from "../PageTitle"
@@ -6,15 +7,18 @@ import "./Home.scss"
 
 export default function Home(){
     const bulletPoints = [
-        "Frontend Developer",
-        "Computer Scientist",
-        "Artist"
+        { text : "Frontend Developer", to : "/site" },
+        { text : "Computer Scientist", to : "/skills" },
+        { text : "Artist", to : "/edit" }
     ]
 
     const details = (<div className="heading">
-        {bulletPoints.map((value, index) => { return <CSSTransitionWrapper key={value} classNames="slide-left">
-            <p className="font-peg text-end" style={{transitionDelay: `${index * 200}ms`}}>{value}</p>
-        </CSSTransitionWrapper> })}
+        { bulletPoints.map((value, index) => { return <CSSTransitionWrapper key={value.text} classNames="slide-left">
+            <Link className="d-block font-peg text-end pb-5 link-light link-underline link-underline-opacity-0" 
+                style={{transitionDelay: `${index * 200}ms`}} to={value.to} title={value.text}>
+                {value.text}
+            </Link>
+        </CSSTransitionWrapper> }) }
     </div>)
 
     return <PageLayout>
