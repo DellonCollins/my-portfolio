@@ -10,7 +10,7 @@ export default function BaseAppLayout({children}){
         <div className="navigation">{children[0]}</div>
         <div className="content d-grid flex-grow-1 bg-secondary" ref={contentRef} >
             <P5Canvas className="test" container={contentRef}/>
-            <div className="scroll-wrapper overflow-y-auto overflow-x-hidden" role="region" title="page content">{children[1]}</div>
+            <div className="scroll-wrapper overflow-y-auto overflow-x-hidden" role="region" aria-label="page content">{children[1]}</div>
         </div>
     </div>
 }
