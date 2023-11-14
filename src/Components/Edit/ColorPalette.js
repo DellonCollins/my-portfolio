@@ -1,33 +1,35 @@
 import { Button, Col, Row } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
+import useCanvasStore from "../../Store/CanvasStore";
 
-const minNumColors = 2, defaultColor = "#aaaaaa", defaultColors = ["#ffffff", "#00ffff"];
+const minNumColors = 2;
 
-export default function ColorPalette(){    
-    const [colors, setColors] = useState(JSON.parse(sessionStorage.getItem("colors")) || defaultColors)
+export default function ColorPalette({ resetFlag, clearResetFlag }){  
+    const colorStore = useCanvasStore(state => ({ 
+        colors: state.colors, 
+        setColor : state.setColor, 
+        addColor : state.addColor, 
+        removeColor : state.removeColor,
+        resetColors : state.resetColors
+    }))  
 
-    useEffect(()=> {
-        sessionStorage.setItem("colors", JSON.stringify(colors))
-    }, [colors])
+    useEffect(() => {
+        if(!resetFlag){ return }
+        colorStore.resetColors()
+        clearResetFlag()
+    }, [resetFlag])
 
     const changeColor = (event) => {
-        let newColors = [...colors]
-        newColors[event.target.id] = event.target.value
-        setColors(newColors)
+        colorStore.setColor(event.target.id, event.target.value)
     }
     const addColor = (event) => {
-        let newColors = [...colors], id = parseInt(event.target.dataset.index)
-        newColors.splice(id + 1, 0, defaultColor)
-        setColors(newColors)
+        colorStore.addColor(parseInt(event.target.dataset.index))
     }
     const removeColor = (event) => {
-        let newColors = [...colors], id = parseInt(event.target.dataset.index)
-        newColors = newColors.filter((value, index) => index !== id)
-        setColors(newColors)
+        colorStore.removeColor(parseInt(event.target.dataset.index))
     }
-
 
     const colorMap = (value, index) => {
         return <Col className="mb-1" md={12} key={index}>
@@ -36,21 +38,24 @@ export default function ColorPalette(){
 
                 <Form.Control className="h-auto" type="color" value={value} onChange={changeColor} id={`${index}`} title={`Select color ${index + 1}`}></Form.Control>
                 
-                <Button className="p-2" variant="primary" onClick={addColor} data-index={`${index}`} aria-label={`Add color ${index + 1}`}>
+                <Button className="p-2" variant="primary" onClick={addColor} data-index={`${index}`} aria-label={`Add color ${index + 1}`} title={`Add color ${index + 1}`}> 
                     <i className="bi bi-plus-lg" style={{fontSize:"1.5rem"}} data-index={`${index}`} alt="add color" aria-hidden="true"/>
                 </Button>
 
-                <Button className="p-2" variant={colors.length <= minNumColors ? "outline-danger" : "danger"} onClick={removeColor} data-index={`${index}`} aria-label={`Remove color ${index + 1}`} disabled={colors.length <= minNumColors}>
+                <Button className="p-2" variant={colorStore.colors.length <= minNumColors ? "outline-danger" : "danger"} onClick={removeColor} data-index={`${index}`} aria-label={`Remove color ${index + 1}`} title={`Remove color ${index + 1}`} disabled={colorStore.colors.length <= minNumColors}>
                     <i className="bi bi-dash-lg" style={{fontSize:"1.5rem"}} data-index={`${index}`} alt="remove color" aria-hidden="true"/>
                 </Button>
             </InputGroup>
         </Col>
     }
+
     return <>
-    <Row aria-hidden>
-        <div><i className="bi bi-paint-bucket" style={{fontSize:"3rem"}} alt="palette icon"/></div>
-    </Row>
-    {colors.map(colorMap)}
-</>
+        <Row aria-hidden>
+            <i className="bi bi-paint-bucket" style={{fontSize:"3rem"}} alt="palette icon"/>
+        </Row>
+        <div >
+            { colorStore.colors.map(colorMap) }
+        </div>
+    </>
 }
 
