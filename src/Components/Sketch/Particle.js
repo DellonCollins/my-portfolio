@@ -67,7 +67,6 @@ export class ParticleManager {
 
     instantiateParticlesFromEdge(numParticles){
         let area = this.width * this.height
-        let particleTracker = this.particleExitTracker
 
         // Small chance to randomly create particles in middle of screen if the screen is sufficiently big
         if(Math.random() < 0.33 && Math.sqrt(area) > 600){
@@ -75,7 +74,7 @@ export class ParticleManager {
         } 
         
         return [...Array(numParticles)].map(() => {
-            let randomEdge = particleTracker.getRandomIndexLeast()         
+            let randomEdge = this.particleExitTracker.getRandomIndexLeast()         
             let speedLimit = Particle.speedLimit / 5
             let xPosition, yPosition, velocity
             switch (randomEdge) {

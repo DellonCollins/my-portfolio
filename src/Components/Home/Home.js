@@ -14,7 +14,7 @@ export default function Home(){
 
     const details = (<div className="heading">
         { bulletPoints.map((value, index) => { return <CSSTransitionWrapper key={value.text} classNames="slide-left">
-            <Link className="d-block font-peg text-end pb-5 link-light link-underline link-underline-opacity-0" 
+            <Link className="d-block font-peg text-end pb-3 pb-lg-5 link-light link-underline link-underline-opacity-0" 
                 style={{transitionDelay: `${index * 200}ms`}} to={value.to} title={value.text}>
                 {value.text}
             </Link>

@@ -57,7 +57,6 @@ export class FlowGrid {
     nearestFlowPoint(position){
         let x = position.x, y = position.y
         let [xRange, yRange] = this.flowMap.size()
-        //subtract 1 from ranges because a grid with 10 
         let blockWidth = this.width/(xRange - 1), blockHeight = this.height/(yRange - 1)
 
 
@@ -71,9 +70,8 @@ export class FlowGrid {
         if(y % blockHeight >= blockHeight/2) {
             yCell +=  1
         }
-
-        let nearestPoint = this.flowMap.get([xCell, yCell])
-        return nearestPoint
+        
+        return this.flowMap.get([xCell, yCell])
 
     }
 }
