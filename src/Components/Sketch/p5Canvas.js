@@ -16,7 +16,7 @@ var fadeDuration = 5 * 1000, drawDuration = 18 * 1000, gridDensity = 1, particle
 var setupHasRan = false
 
 function sketch(p5){
-    let saveSwitch = false, resetSwitch = false
+    let saveSwitch = false, resetSwitch = false, playSwitch = true, colors
     let width = 600, height = 400, pathname, isHidden = false; 
     let shouldRenderBackground = true;
     let flowGrid, particleManager;
@@ -101,10 +101,22 @@ function sketch(p5){
             shouldReinitialize = true
         }
 
-        if(shouldReinitialize){ initializeFlowField() }
+        if(props.playSwitch !== undefined && props.playSwitch !== playSwitch) {
+            playSwitch = props.playSwitch
+        }
+
+        if(props.colors !== undefined && props.colors !== colors) {
+            colors = props.colors
+        }
+
+        if(shouldReinitialize){ 
+            initializeFlowField() 
+            props.play()
+        }
     }
 
     p5.draw = () => {
+        if(!playSwitch) { return }
         if (drawMode === DrawMode.draw) {
             // set the timer only if it has not been started
             if(!drawTimeout) {
@@ -119,19 +131,18 @@ function sketch(p5){
             if (shouldRenderBackground) {
                 p5.clear()
                 p5.background(backgroundColor);
-                
             }
             if (flowGrid) {
                 particleManager.updateParticles()
-                particleManager.draw(p5, JSON.parse(sessionStorage.getItem("colors")) || undefined)
-                if(p5.frameCount % 2000 === 0 ){
+                particleManager.draw(p5, colors || undefined)
+                if (p5.frameCount % 2000 === 0){
                     flowGrid.setFlowValues(p5)
                 }
                 shouldRenderBackground = false;
             }
         } else if (drawMode === DrawMode.fade) {
             // set the timer only if it has not been started
-            if(!fadeTimeout) {
+            if (!fadeTimeout) {
                 fadeStartTime = Date.now()
                 fadeTimeout = new TimerWithPause(() => {
                     initializeFlowField()
@@ -176,14 +187,24 @@ export function P5Canvas({container}) {
     const urlLocation = useLocation()
     const hidden = useVisibility()
     const reloadInitiated = useReload()
-    const gridDensity = useCanvasStore(state=>state.gridDensity)
-    const particleDensity = useCanvasStore(state=>state.particleDensity)
-    const drawDuration = useCanvasStore(state=>state.drawDuration)
-    const chaos = useCanvasStore(state=>state.chaos)
-    const saveSwitch = useCanvasStore(state=>state.saveSwitch)
-    const resetSwitch = useCanvasStore(state=>state.resetSwitch)
+
+    const parameters = useCanvasStore(state => ({
+        gridDensity : state.gridDensity, 
+        particleDensity : state.particleDensity,
+        drawDuration : state.drawDuration,
+        chaos : state.chaos
+    }))
+    const switches = useCanvasStore(state => ({
+        saveSwitch : state.saveSwitch,
+        resetSwitch : state.resetSwitch,
+        playSwitch : state.playSwitch
+    }))
+    const play = useCanvasStore(state=>state.play)
+    const colors = useCanvasStore(state=>state.colors)
 
     return <ReactP5Wrapper sketch={sketch} canvasWidth={dimensions.width} canvasHeight={dimensions.height} 
         pathname={urlLocation.pathname} hidden={hidden} pageReloaded={reloadInitiated} 
-        gridDensity={gridDensity} drawDuration={drawDuration} saveSwitch={saveSwitch} resetSwitch={resetSwitch} particleDensity={particleDensity} chaos={chaos} role="region" title="background canvas"/>
+        gridDensity={parameters.gridDensity} drawDuration={parameters.drawDuration} particleDensity={parameters.particleDensity} chaos={parameters.chaos} 
+        saveSwitch={switches.saveSwitch} resetSwitch={switches.resetSwitch} playSwitch={switches.playSwitch} play={play} colors={colors}
+        role="region" title="background canvas"/>
 }
