@@ -103,6 +103,13 @@ function sketch(p5){
 
         if(props.playSwitch !== undefined && props.playSwitch !== playSwitch) {
             playSwitch = props.playSwitch
+            if(playSwitch){
+                if(fadeTimeout) { fadeTimeout.resume() }
+                if(drawTimeout) { drawTimeout.resume() }
+            } else {
+                if(fadeTimeout) { fadeTimeout.pause() }
+                if(drawTimeout) { drawTimeout.pause() }
+            }
         }
 
         if(props.colors !== undefined && props.colors !== colors) {
