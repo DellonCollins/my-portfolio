@@ -5,23 +5,27 @@ var defaultColor = "#aaaaaa", defaultColors = ["#ffffff", "#00ffff"]
 const storeColorInSession = (colors) => { sessionStorage.setItem("colors", JSON.stringify(colors)); return {colors} }
 
 const useCanvasStore = create((set) => ({
-    drawDuration: 10,
+    drawDuration: 15,
     setDrawDuration: (value) => set(() => ({ drawDuration: parseInt(value) })),
 
     gridDensity: 3,
     setGridDensity: (value) => set(() => ({ gridDensity: parseInt(value) })),
 
-    particleDensity: 3,
+    particleDensity: Math.sqrt(window.outerWidth * window.outerHeight) < 750 ? 1 : 3,
     setParticleDensity: (value) => set(() => ({ particleDensity: parseInt(value) })),
 
     chaos: 50,
     setChaos: (value) => set(() => ({ chaos: parseInt(value) })),
 
     saveSwitch: false,
-    toggleSaveSwitch: () => set((state) => ({ saveSwitch: !state.saveSwitch})),
+    toggleSaveSwitch: () => set((state) => ({ saveSwitch: !state.saveSwitch })),
 
     resetSwitch: false,
-    toggleResetSwitch: () => set((state) => ({ resetSwitch: !state.resetSwitch})),
+    toggleResetSwitch: () => set((state) => ({ resetSwitch: !state.resetSwitch })),
+
+    playSwitch: true,
+    togglePlaySwitch: () => set((state) => ({ playSwitch : !state.playSwitch })),
+    play: () => set((state) => ({ playSwitch : true })),
 
     colors: storeColorInSession(JSON.parse(sessionStorage.getItem("colors")) || defaultColors).colors,
     setColor:   (index, color) => set((state) => {
