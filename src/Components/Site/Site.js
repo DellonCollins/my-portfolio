@@ -1,4 +1,5 @@
 import { Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { CSSTransitionWrapper } from "../../Styles and Transitions/Transitions";
 import PageLayout from "../Layouts/PageLayout";
 import PageTitle from "../PageTitle";
@@ -42,6 +43,10 @@ export default function Site(){
                     random values that are correlated/influenced by nearby values. The lines drawn on the screen trace the path of particles as they 
                     are influenced by the grid. This results in smooth curves that tend to flow in one direction. The visual affect of this canvas is smiliar to flowing rivers,
                     magnetic fields, or strands of hair.
+                </p>
+                <p> <span>Go to the </span>
+                    <Link className="link-light" to="/edit" title="Go to customization page">customization</Link> 
+                    <span> page to tweak the color and other generation parameters. You can save what you find as background or screensaver.</span>
                 </p>
             </div>
         </Row>
