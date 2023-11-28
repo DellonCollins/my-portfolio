@@ -3,9 +3,11 @@ import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
 import useCanvasStore from "../../Store/CanvasStore";
 import ColorPalette from "./ColorPalette";
+import "./Edit.scss"
 
 export default function EditCanvas({ref}){
     const [reset, setReset] = useState(false)
+    const [dimmer, setDimmer] = useState(false)
     const inputRefs = useRef({})
 
     const parameters = useCanvasStore(state => ({
@@ -86,7 +88,7 @@ export default function EditCanvas({ref}){
         }
     ]
     
-    return <Container className="pb-5" ref={ref}>
+    return <Container className={"edit-container pb-5 " + (dimmer ? "dim" : "")} ref={ref} >
         <Row role="region" title="Color List">
             <ColorPalette resetFlag={reset} clearResetFlag={()=>setReset(false)}/>
         </Row>
@@ -138,10 +140,19 @@ export default function EditCanvas({ref}){
                 </Button>
             </Col>
             
-            <Col md={6} role="none">
-                <Button className="w-100 flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="secondary" onClick={toggle.save} title="Save the background as an image">
+            <Col className="mb-1" md={6} role="none">
+                <Button className="w-100 flex-grow-1 fw-bold d-inline-flex align-items-center justify-content-center py-0" variant="success" onClick={toggle.save} title="Save the background as an image">
                     <span className="py-auto">Save &nbsp;</span>
                     <i className="bi bi-floppy" style={{fontSize:"2rem"}} aria-hidden />
+                </Button>
+            </Col>
+
+            <Col md={6} role="none">
+                <Button className="dimmer-button w-100 flex-grow-1 fw-bold align-items-center justify-content-center py-0" 
+                    variant={dimmer ? "warning" : "dark" }
+                    onClick={()=>setDimmer(!dimmer)} title="Dim the panel">
+                    <span className="py-auto">Dimmer &nbsp;</span>
+                    <i className={dimmer ? "bi bi-lightbulb" : "bi bi-lightbulb-off"} style={{fontSize:"2rem"}} aria-hidden />
                 </Button>
             </Col>
         </Row>

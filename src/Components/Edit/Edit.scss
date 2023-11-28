@@ -1,0 +1,17 @@
+.fade-appear-done {
+    .edit-container {
+        transition: opacity 300ms ease-out;
+        opacity: 1;
+        &.dim {
+            opacity: 0.18;
+        }
+    }
+
+    .dimmer-button {
+        display: inline-flex;
+    }
+}
+
+.dimmer-button {
+    display: none;
+}

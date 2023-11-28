@@ -10,7 +10,9 @@ export default function Edit(){
             <Row className="py-5">
                 <PageTitle title="Edit"/>
             </Row> 
-            <ForwardEdit/>
+            <Row>
+                <ForwardEdit/>
+            </Row>
         </CSSTransitionWrapper>
     </PageLayout>
 }
