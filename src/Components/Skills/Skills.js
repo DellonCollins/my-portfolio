@@ -50,7 +50,7 @@ export default function Skills(){
                         link-opacity-75 link-opacity-100-hover
                         link-underline-opacity-0 link-underline-opacity-100-hover" 
                         style={{transition:"text-decoration-color 200ms ease, color 200ms ease", textDecorationThickness:"1px"}}
-                        href="/Dellon Collins Resume.pdf" download title="Download Résumé"> 
+                        href="Dellon Collins Resume.pdf" download title="Download Résumé"> 
                         <span>Résumé</span><i className="bi bi-file-text ps-2" style={{fontSize:"2rem"}} aria-hidden/>
                     </a>
                 </Col>
