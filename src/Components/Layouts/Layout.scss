@@ -6,10 +6,12 @@
 
 
 .content {  
+    overflow: hidden;
+
     @include media-breakpoint-down(lg) { 
         max-height: calc(100% - 62px); 
-    }
-    
+    }   
+
     > :nth-child(1), > :nth-child(2){
         grid-column: 1;
         grid-row: 1;   
